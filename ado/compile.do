@@ -5,7 +5,7 @@ set more off
 set trace off
 set matastrict on
 
-cd I:\george\comandos_paquetes_librerias\stata\cnu\ado\
+// cd I:\george\comandos_paquetes_librerias\stata\cnu\ado\
 
 /* Compilando rutinas y agregandolas a mlib */
 mata mata mlib create lcnu, replace
@@ -16,7 +16,7 @@ do utils.mata
 mata mata mlib add lcnu *()
 
 /* Creando documentacion */
-do ../../dev_tools/build_source_hlp.mata
+cap do ../../dev_tools/build_source_hlp.mata
 mata build_source_hlp(dir(".","files","*.mata"), "cnu_source.hlp", 1)
 
 /* Creando checksum */
