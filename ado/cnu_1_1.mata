@@ -41,6 +41,8 @@ real scalar cnu_1_1(
 	
 	tabla_mort = cnu_get_tab_mort(agnotabla, mujer_tm, tipo_tm, path_tm)
 	qxtmp = cnu_mejorar_tabla(tabla_mort[.,1],tabla_mort[.,2], tabla_mort[.,3], agnotabla, agnoactual, y)
+	st_local("tipotabla",tipo_tm)
+	st_local("agnotabla", strofreal(agnotabla))
 	
 	// Genera vector
 	if (norp) {

@@ -151,6 +151,10 @@ real scalar cnu_2_2(
 		agnotabla      = cnu_which_tab_mort(fsiniestro, tipo_tm_cot)
 		agnotablabenef = cnu_which_tab_mort(fsiniestro, tipo_tm_cony)
 	}
+	st_local("tipotabla", tipo_tm_cot)
+	st_local("tipotablabenef", tipo_tm_cony)
+	st_local("agnotabla", strofreal(agnotabla))
+	st_local("agnotablabenef", strofreal(agnotablabenef))
 	
 	tabla_mort_cot  = cnu_get_tab_mort(agnotabla, cotmujer_tm, tipo_tm_cot, path_tm)
 	tabla_mort_cony = cnu_get_tab_mort(agnotablabenef, conymujer_tm, tipo_tm_cony, path_tm)

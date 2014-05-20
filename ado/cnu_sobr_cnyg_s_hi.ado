@@ -51,9 +51,6 @@ program def cnu_sobr_cnyg_s_hi, rclass
 	// Agno actual
 	if `agnoactual' == 0 local agnoactual = regexr(c(current_date), "[0-9]* [a-zA-Z]* ","")
 		
-	if (`norp') local etiqueta = "CNU sobrev RV para conyuge sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rv'*100'% en el a{c n~}o `agnoactual'"
-	else local etiqueta = "CNU sobrev RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el a{c n~}o `agnoactual'"
-	
 	#delimit ;
 	mata: 
 		st_local("generate" , 
@@ -76,6 +73,9 @@ program def cnu_sobr_cnyg_s_hi, rclass
 		)
 	;
 	#delimit cr
+
+	if (`norp') local etiqueta = "CNU sobrev RV para conyuge sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rv'*100'% en el a{c n~}o `agnoactual'"
+	else local etiqueta = "CNU sobrev RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el a{c n~}o `agnoactual'"
 		
 	if (c(dp) == "period") local fmt %9.6fc
 	else local fmt %9,6fc

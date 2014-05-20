@@ -1,0 +1,51 @@
+*--- BEGIN --- myprog.pkg -----------------------------------
+v 3
+d Distribution-Date: 20131014
+d cnu. Calculador del Capital Necesario Unitario (CNU) utilizado en el cálculo de pensiones
+d George G. Vega
+d M{c o'}dulo de stata para el c{c a'}lculo del CNU escrito en mata.
+Fue contrastado con informatica
+
+* I can also insert comments; these will not be displayed.
+* f lines name the files that comprise your package:
+
+f ado/cnu_afil.ado
+f ado/cnu_afili.ado
+f ado/cnu_cnyg_s_h.ado
+f ado/cnu_cnyg_s_hi.ado
+f ado/cnu_sobr_cnyg_s_h.ado
+f ado/cnu_sobr_cnyg_s_hi.ado
+F ado/lcnu.mlib
+
+f ado/cnu_afil.hlp
+f ado/cnu_afili.hlp
+f ado/cnu_cnyg_s_h.hlp
+f ado/cnu_cnyg_s_hi.hlp
+f ado/cnu_sobr_cnyg_s_h.hlp
+f ado/cnu_sobr_cnyg_s_hi.hlp
+f ado/cnu.hlp
+f ado/cnu_source.hlp
+
+* Tablas de mortalidad y vectores
+F ado/cnu_tabmor_b1985h 
+F ado/cnu_tabmor_mi2006m
+F ado/cnu_tabmor_rv2004h
+F ado/cnu_tabmor_rv2004m
+F ado/cnu_tabmor_rv1985h
+F ado/cnu_tabmor_mi2006h
+F ado/cnu_tabmor_b1985m 
+F ado/cnu_tabmor_rv2009m
+F ado/cnu_tabmor_rv2009h
+F ado/cnu_tabmor_b2006m 
+F ado/cnu_tabmor_b2006h 
+F ado/cnu_tabmor_rv1985m
+
+F ado/cnu_vec2010       
+F ado/cnu_vec2012       
+F ado/cnu_vec2011       
+F ado/cnu_vec2009       
+F ado/cnu_vec2013  
+
+
+
+*--- END ----- myprog.pkg -----------------------------------

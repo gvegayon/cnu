@@ -237,7 +237,6 @@ real matrix cnu_get_vec_tasas(
 // NOMBRE     : cnu_mejorar_tabla
 // DESCRIPCION: Aplica mejoramiento a tablas de mortalidad
 // RESULTADO  : Tabla de mortalidad ajustada (vector)
-
 real colvector cnu_mejorar_tabla(
 	real colvector edades,
 	real colvector qx,        // Valor Qx (Mortalidad)
@@ -251,7 +250,6 @@ real colvector cnu_mejorar_tabla(
 	real scalar difagnos
 	
 	difagnos = agno_actual - agno_qx
-	
 	return(qx :* (1 :- aa):^(difagnos :+ edades :- edad))
 }
 

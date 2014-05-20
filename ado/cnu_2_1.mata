@@ -122,6 +122,8 @@ real scalar cnu_2_1(
 	
 	// Asignacion dinamica de tabla
 	if (fsiniestro != 0) agnotabla = cnu_which_tab_mort(fsiniestro, tipo_tm)
+	st_local("tipotabla",tipo_tm)
+	st_local("agnotabla",strofreal(agnotabla))
 	
 	tabla_mort = cnu_get_tab_mort(agnotabla, mujer_tm, tipo_tm, path_tm)
 	
