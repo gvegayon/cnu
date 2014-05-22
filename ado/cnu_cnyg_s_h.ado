@@ -1,4 +1,4 @@
-*! vers 1.13.12 26dic2013
+*! vers 1.14.5 22may2014
 *! auth: George G. Vega
 *! 2.1 Afiliado pensionado
 
@@ -26,8 +26,10 @@ program def cnu_cnyg_s_h, rclass
 			Fsiniestro(integer 0)
 			VFsiniestro(varname)
 			NORP
-			RV(real 0.032)
+			RV(real -1e100)
+			RP(real -1e100)
 			VRV(varname)
+			VRP(varname)
 			]
 	;
 	#delimit cr
@@ -51,8 +53,9 @@ program def cnu_cnyg_s_h, rclass
 	marksample touse
 	
 	// Verifica si calcula RP
-	if (length("`norp'") > 0) local norp = 1
-	else local norp = 0
+	if ("`norp'"!="") di as result "La opci{c 'o}n -norp- ya no est{c 'a} disponible. CNU determina esto autom{c 'a}ticamente."
+        if (`rv'==-1e100) local norp = 0
+        else local norp = 1
 	
 	// Selecciona tabla afiliado
 	tempvar vagnotabla vtipotabla
@@ -106,6 +109,10 @@ program def cnu_cnyg_s_h, rclass
 		tempvar vrv
 		gen `vrv' = `rv'
 	}
+	if (length("`vrp'") == 0) {
+		tempvar vrp
+		gen `vrp' = `rp'
+	}
 	
 	// Agno vector
 	if (length("`vagnovector'") == 0) {
@@ -136,7 +143,11 @@ program def cnu_cnyg_s_h, rclass
 	qui gen `generate' = .
 	
 	if (`norp') lab var `generate' "CNU RV para conyuge sin hijos (tablas `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef'), tasa `=`rv'*100'% en año `agnoactual'"
-	else lab var `generate' "CNU RP para conyuge sin hijos (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef'), vector `agnovector' en año `agnoactual'"
+	else {
+		if (`rp' == -1e100) lab var `generate' "CNU RP para conyuge sin hijos (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef'), vector `agnovector' en año `agnoactual'"
+		else lab var `generate' "CNU RP para conyuge sin hijos (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef'), tasa `=`rp'*100'% en año `agnoactual'"
+		
+	}
 	
 	#delimit ;
 	mata: 
@@ -151,6 +162,7 @@ program def cnu_cnyg_s_h, rclass
 				st_data(.,"`vagnovector'"),
 				`norp',
 				st_data(.,"`vrv'"),
+				st_data(.,"`vrp'"),
 				st_data(.,"`vagnotabla'"),
 				st_data(.,"`vagnotablabenef'"),
 				st_data(.,"`vagnoactual'"),
@@ -178,3 +190,4 @@ program def cnu_cnyg_s_h, rclass
 	else qui format `generate' %9,6fc
 	
 end
+

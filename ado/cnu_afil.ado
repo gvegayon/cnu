@@ -23,8 +23,10 @@ program def cnu_afil, rclass
 			Fsiniestro(integer 0)
 			VFsiniestro(varname)
 			NORP
-			RV(real 0.032)
+			RV(real -1e100)
+			RP(real -1e100)
 			VRV(varname)
+			VRP(varname)
 			]
 	;
 	#delimit cr
@@ -47,8 +49,10 @@ program def cnu_afil, rclass
 	marksample touse
 	
 	// Verifica si calcula RP
-	if (length("`norp'") > 0) local norp = 1
-	else local norp = 0
+	if ("`norp'"!="") di as result "La opci{c 'o}n -norp- ya no est{c 'a} disponible. CNU determina esto autom{c 'a}ticamente."
+        if (`rv'==-1e100) local norp = 0
+        else local norp = 1
+
 	
 	// Selecciona tabla
 	tempvar vagnotabla vtipotabla
@@ -82,6 +86,10 @@ program def cnu_afil, rclass
 		tempvar vrv
 		gen `vrv' = `rv'
 	}
+	if (length("`vrp'") == 0) {
+		tempvar vrp
+		gen `vrp' = `rp'
+	}
 	
 	// Agno vector
 	if (length("`vagnovector'") == 0) {
@@ -105,8 +113,13 @@ program def cnu_afil, rclass
 	if length("`replace'") != 0 cap drop `generate'
 	qui gen `generate' = .
 	
-	if (`norp') lab var `generate' "CNU RV para soltero sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rv'*100'% en el año `agnoactual'"
-	else lab var `generate' "CNU RP para soltero sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el año `agnoactual'"
+	if (`norp') {
+		lab var `generate' "CNU RV para soltero sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rv'*100'% en el año `agnoactual'"
+	}
+	else {
+		if (`rp'==-1e100) lab var `generate' "CNU RP para soltero sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el año `agnoactual'"
+		else lab var `generate' "CNU RP para soltero sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rp'*100'% en el año `agnoactual'"
+	}
 	
 	#delimit ;
 	mata: 
@@ -118,6 +131,7 @@ program def cnu_afil, rclass
 				st_data(.,"`vagnovector'"),
 				`norp',
 				st_data(.,"`vrv'"),
+				st_data(.,"`vrp'"),
 				st_data(.,"`vagnotabla'"),
 				st_data(.,"`vagnoactual'"),
 				st_data(.,"`vfsiniestro'"),

@@ -205,8 +205,8 @@ void cnu_save_vec_tasas(
 
 real matrix cnu_get_vec_tasas(
 	real scalar agno,     // Agno del vector
-   |string scalar path,   // (OPCIONAL) Directorio donde guardar el archvo (por defecto PERSONAL)
-    string scalar altname
+	|string scalar path,   // (OPCIONAL) Directorio donde guardar el archvo (por defecto PERSONAL)
+	string scalar altname
 	) 
 	{
 	
@@ -413,3 +413,4 @@ void cnu_import_plain_vec(
 	return
 }
 end
+

@@ -14,6 +14,7 @@ real colvector cnu_2_2_vec(
 	real colvector agnovec,     // Agno del vector
 	real scalar norp,           // Dicotomica indicando si calcula o no RP
 	real colvector rv,          // Valor de la tasa para RV
+	real colvector rp,          // Valor de la tasa para RP
 	real colvector agnotabla,      // Agno de la tabla de mortalidad del cotizante
 	real colvector agnotablabenef, // Agno de la tabla de mortalidad del beneficiario
 	real colvector vagnoactual, // Agno actual (de calculo)
@@ -65,7 +66,7 @@ real colvector cnu_2_2_vec(
 				s_cony = conymujer[j,1]			
 								
 				// Guarda resultado en vector CNU
-				cnu[j,1] = cnu_2_2(edad_cot, edad_cony, s_cot, s_cony, tipo_tm_cot[j], tipo_tm_cony[j], agnovec[j], rv[j], norp, agnotabla[j], agnotablabenef[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
+				cnu[j,1] = cnu_2_2(edad_cot, edad_cony, s_cot, s_cony, tipo_tm_cot[j], tipo_tm_cony[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], agnotablabenef[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
 			} 
 			else if (edad_cot < 20) {
 				if (nerr_menor_20_cot++ < 20) err_menor_20_cot = err_menor_20_cot+strofreal(j)+" "
@@ -113,6 +114,7 @@ real scalar cnu_2_2(
 	string scalar tipo_tm_cony,  // Tabla de mortalidad para el beneficiario
 	real scalar agnovec,         // Agno del vector
 	real scalar rv,              // Valor de la tasa para RV
+	real scalar rp,
 	real scalar norp,            // Dicotomica indicando si calcula o no RP
 	real scalar agnotabla,       // Agno de la tabla de mortalidad del cotizante
 	real scalar agnotablabenef,  // Agno de la tabla de mortalidad del beneficiario
@@ -163,10 +165,16 @@ real scalar cnu_2_2(
 	qxtmp_cony = cnu_mejorar_tabla(tabla_mort_cony[.,1], tabla_mort_cony[.,2], tabla_mort_cony[.,3], agnotablabenef, agnoactual, y)
 	
 	// Genera vector
-	if (norp) {
+	if (norp) 
+	{
 		vec = ((1::191), J(191,1,rv))
 	} 
-	else {
+	else if (rp != -1e100)
+	{
+		vec = ((1::191), J(191,1,rp))
+	}
+	else 
+	{
 		vec = cnu_get_vec_tasas(agnovec, path_v)
 	}
 	

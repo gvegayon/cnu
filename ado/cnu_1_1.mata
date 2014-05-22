@@ -11,6 +11,7 @@ real scalar cnu_1_1(
 	string scalar tipo_tm,  // Tabla de mortalidad para el beneficiario
 	real scalar agnovec,    // Agno del vector
 	real scalar rv,         // Valor de la tasa para RV
+	real scalar rp,         // Valor de la tasa para RP
 	real scalar norp,       // Dicotomica indicando si calcula o no RP
 	real scalar agnotabla,  // Agno de la tabla de mortalidad del beneficiario
 	real scalar agnoactual, // Agno actual (de calculo)
@@ -45,10 +46,16 @@ real scalar cnu_1_1(
 	st_local("agnotabla", strofreal(agnotabla))
 	
 	// Genera vector
-	if (norp) {
+	if (norp) 
+	{
 		vec = ((1::191), J(191,1,rv))
 	} 
-	else {
+	else if (rp != -1e100)
+	{
+		vec = ((1::191), J(191,1,rp))
+	}
+	else 
+	{
 		vec = cnu_get_vec_tasas(agnovec, path_v)
 	}	
 	
@@ -98,6 +105,7 @@ real colvector cnu_1_1_vec(
 	real colvector agnovec,     // Agno del vector
 	real scalar norp,           // Dicotomica indicando si calcula o no RP
 	real colvector rv,          // Valor de la tasa para RV
+	real colvector rp,          // Valor de la tasa para RP
 	real colvector agnotabla,      // Agno de la tabla de mortalidad del beneficiario
 	real colvector vagnoactual, // Agno actual (de calculo)
 	real colvector vfsiniestro, // Fecha del siniestro
@@ -140,7 +148,7 @@ real colvector cnu_1_1_vec(
 			if (edad >= 20 & edad <= 110 & vecexists) {
 							
 				// Guarda resultado en vector CNU			
-				cnu[j,1] = cnu_1_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
+				cnu[j,1] = cnu_1_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
 			}
 			else if (edad < 20) { // No puede calcular CNU por ser menor de 20
 				if (nerr_menor_20++ < 20) err_menor_20 = err_menor_20+strofreal(j)+" "

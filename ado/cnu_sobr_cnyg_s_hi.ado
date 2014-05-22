@@ -19,7 +19,8 @@ program def cnu_sobr_cnyg_s_hi, rclass
 			AGNOActual(integer 0)
 			Fsiniestro(integer 0)
 			NORP
-			RV(real 0.032)
+			RV(real -1e100)
+			RP(real -1e100)
 			PASOS
 			]
 	;
@@ -35,8 +36,10 @@ program def cnu_sobr_cnyg_s_hi, rclass
 	else local pasos = 0
 	
 	// Verifica si calcula RP
-	if (length("`norp'") > 0) local norp = 1
-	else local norp = 0
+	if ("`norp'"!="") di as result "La opci{c o'}n -norp- ya no est{c a'} disponible. CNU determina esto autom{c a'}ticamente."
+
+        if (`rv'==-1e100) local norp = 0
+        else local norp = 1
 	
 	// Selecciona tabla
 	if length("`tablabenef'") == 0 {
@@ -61,6 +64,7 @@ program def cnu_sobr_cnyg_s_hi, rclass
 					"`tipotabla'",
 					`agnovector',
 					`rv',
+					`rp',
 					`norp',
 					`agnotabla',
 					`agnoactual',
@@ -75,7 +79,11 @@ program def cnu_sobr_cnyg_s_hi, rclass
 	#delimit cr
 
 	if (`norp') local etiqueta = "CNU sobrev RV para conyuge sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rv'*100'% en el a{c n~}o `agnoactual'"
-	else local etiqueta = "CNU sobrev RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el a{c n~}o `agnoactual'"
+	else {
+		if (`rp'==-1e100) local etiqueta = "CNU sobrev RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el a{c n~}o `agnoactual'"
+		else local etiqueta = "CNU sobrev RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rp'*100'% en el a{c n~}o `agnoactual'"
+	
+	}
 		
 	if (c(dp) == "period") local fmt %9.6fc
 	else local fmt %9,6fc

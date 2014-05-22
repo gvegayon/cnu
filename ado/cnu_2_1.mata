@@ -12,6 +12,7 @@ real colvector cnu_2_1_vec(
 	real colvector agnovec,      // Agno del vector
 	real scalar norp,            // 1 si no desea calcular Retiro Programado
 	real colvector rv,           // Tasa rentabilidad (para Renta Vitalicia)
+	real colvector rp,           // Tasa para RP
 	real colvector agnotabla,    // Agno de la tabla de mortalidad
 	real colvector vagnoactual,  // Agno actual de calculo
 	real colvector vfsiniestro,  // Fecha del siniestro (para definicion dinamica de tabla de mortalidad)
@@ -54,7 +55,7 @@ real colvector cnu_2_1_vec(
 			if (edad >= 20 & edad <= 110 & vecexists) {
 							
 				// Guarda resultado en vector CNU			
-				cnu[j,1] = cnu_2_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
+				cnu[j,1] = cnu_2_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
 			}
 			else if (edad < 20) { // No puede calcular CNU por ser menor de 20
 				if (nerr_menor_20++ < 20) err_menor_20 = err_menor_20+strofreal(j)+" "
@@ -92,6 +93,7 @@ real scalar cnu_2_1(
 	string scalar tipo_tm,  // Tipo de tabla de mortalidad (rv, mi, b)
 	real scalar agnovec,    // Agno del vector
 	real scalar rv,         // Valor de la tasa para RV
+	real scalar rp,
 	real scalar norp,       // Dicotomica indicando si calcula o no RP
 	real scalar agnotabla,  // Agno de la tabla de mortalidad del cotizante
 	real scalar agnoactual, // Agno actual (de calculo)
@@ -130,10 +132,16 @@ real scalar cnu_2_1(
 	qxtmp = cnu_mejorar_tabla(tabla_mort[.,1],tabla_mort[.,2], tabla_mort[.,3], agnotabla, agnoactual, x)
 	
 	// Genera vector
-	if (norp) {
+	if (norp) 
+	{
 		vec = ((1::191), J(191,1,rv))
-	} 
-	else {
+	}
+	else if (rp != -1e100) 
+	{
+		vec = ((1::191), J(191,1,rp))
+	}
+	else 
+	{
 		vec = cnu_get_vec_tasas(agnovec, path_v)
 	}
 	
@@ -169,3 +177,4 @@ real scalar cnu_2_1(
 }
 
 end
+

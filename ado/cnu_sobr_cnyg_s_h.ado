@@ -48,8 +48,11 @@ program def cnu_sobr_cnyg_s_h, rclass
 	marksample touse
 	
 	// Verifica si calcula RP
-	if (length("`norp'") > 0) local norp = 1
-	else local norp = 0
+	if ("`norp'"!="") di as result "La opci{c o'}n -norp- ya no est{c a'} disponible. CNU determina esto autom{c a'}ticamente."
+
+        if (`rv'==-1e100) local norp = 0
+        else local norp = 1
+
 	
 	// Selecciona tabla
 	tempvar vagnotablabenef vtipotablabenef
@@ -83,6 +86,10 @@ program def cnu_sobr_cnyg_s_h, rclass
 		tempvar vrv
 		gen `vrv' = `rv'
 	}
+	if (length("`vrp'" == 0) {
+		tempvar vrp
+		gen `vrp' = `rp'
+	}
 	
 	// Agno vector
 	if (length("`vagnovector'") == 0) {
@@ -107,7 +114,11 @@ program def cnu_sobr_cnyg_s_h, rclass
 	qui gen `generate' = .
 	
 	if (`norp') lab var `generate' "CNU sobrv RV para conyuge sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rv'*100'% en el año `agnoactual'"
-	else lab var `generate' "CNU sobrv RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el año `agnoactual'"
+	else {
+		if (`rp' == -1e100) lab var `generate' "CNU sobrv RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), vector `agnovector' en el año `agnoactual'"
+		else lab var `generate' "CNU sobrv RP para conyuge sin hijos (tabla `tipotabla'`agnotabla'), tasa `=`rp'*100'% en el año `agnoactual'"
+
+	}
 	
 	#delimit ;
 	mata: 
@@ -119,6 +130,7 @@ program def cnu_sobr_cnyg_s_h, rclass
 				st_data(.,"`vagnovector'"),
 				`norp',
 				st_data(.,"`vrv'"),
+				st_data(.,"`vrp'"),
 				st_data(.,"`vagnotablabenef'"),
 				st_data(.,"`vagnoactual'"),
 				st_data(.,"`vfsiniestro'"),

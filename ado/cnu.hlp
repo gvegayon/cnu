@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.13.10.22 22oct2013}{...}
+{* *! version 0.14.5 22may2014}{...}
 {cmd:help cnu}
 {hline}
 
@@ -29,7 +29,9 @@ CNU para afiliado soltero.
 {opt vf:siniestro}({help varname})
 {opt norp}
 {opt rv}({help real})
+{opt rp}({help real})
 {opt vrv}({help varname})
+{opt vrp}({help varname})
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
 {p_end}
@@ -42,6 +44,7 @@ CNU para afiliado soltero.
 {opt f:siniestro}({help integer})
 {opt norp}
 {opt rv}({help real})
+{opt rp}({help real})
 {opt pasos}
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
@@ -67,7 +70,9 @@ CNU para c{c o'}nyuge sin hijos.
 {opt vf:siniestro}({help varname})
 {opt norp}
 {opt rv}({help real})
+{opt rp}({help real})
 {opt vrv}({help varname})
+{opt vrp}({help varname})
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
 {p_end}
@@ -82,6 +87,7 @@ CNU para c{c o'}nyuge sin hijos.
 {opt f:siniestro}({help integer})
 {opt norp}
 {opt rv}({help real})
+{opt rp}({help real})
 {opt pasos}
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
@@ -104,7 +110,9 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt vf:siniestro}({help varname})
 {opt norp}
 {opt rv}({help real})
+{opt rp}({help real})
 {opt vrv}({help varname})
+{opt vrp}({help varname})
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
 {p_end}
@@ -117,6 +125,7 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt f:siniestro}({help integer})
 {opt norp}
 {opt rv}({help real})
+{opt rp}({help real})
 {opt pasos}
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
@@ -149,12 +158,16 @@ las tablas de mortalidad. Por defecto corresponde al a{c n~}o del Sistema Operat
 c{c a'}lculo. Se utiliza para ajustar las tablas de mortalidad.{p_end}
 {synopt:{opt f:siniestro}}Fecha de ocurrencia del siniestro {it:YYYYMMDD}.{p_end}
 {synopt:{opt vf:siniestro}}Variable que contiene la fecha de ocurrencia del siniestro {it:YYYYMMDD}.{p_end}
-{synopt:{opt norp}}Desactiva el c{c a'}lculo de retiro programado (cual es el 
+{synopt:{opt norp}} (OPCION EN DESUSO) Desactiva el c{c a'}lculo de retiro programado (cual es el 
 c{c a'}lculo por defecto).{p_end}
 {synopt:{opt rv}}Real. Especifica el valor de la tasa para c{c a'}lculo de renta
-vitalicia. Por defecto en 0.032 (3.2%).{p_end}
+vitalicia.{p_end}
+{synopt:{opt rp}}Real. Especifica el valor de la tasa para c{c a'}lculo de retiro
+programado.{p_end}
 {synopt:{opt vrv}}Nombre de la variable que contiene la tasa para c{c a'}lculo de 
 renta vitalicia.{p_end}
+{synopt:{opt vrp}}Nombre de la variable que contiene la tasa para c{c a'}lculo de 
+retiro programado.{p_end}
 {synopt:{opt pasos}}Activa la impresi{c o'}n en pantalla de los pasos de calculo
 (periodo a periodo) del CNU.{p_end}
 
