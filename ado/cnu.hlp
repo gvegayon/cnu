@@ -386,6 +386,14 @@ con la variable {cmd:tiempo} (contiene a{c n~}os).{p_end}
 {phang2}CNU para RP sin conyuge sin hijos (tabla rv2009) y vector 2013 en el a{c n~}o 2013{p_end}
 {phang2}13.016880{p_end}{txt}
 
+{pstd}CNU de Retiro Programado (con tasa) para afiliado soltero con 65 a{c n~}os{p_end}
+{phang2}{cmd:. cnu_afili 65, rp(.0366)}{p_end}
+{phang2}{it:   ({stata cnu_afili 65, rp(0.0366):click para ejecutar})}{p_end}
+{txt}
+{phang2}CNU RP para soltero sin hijos (tabla rv2009), tasa 3.66% en el año 2014{p_end}
+{phang2}13.377540{p_end}{txt}
+
+
 {pstd}CNU de Retiro Programado para afiliado soltero con 65 a{c n~}os con vector 2011 calculado
 en el a{c n~}o 2011{p_end}
 {phang2}{cmd:. cnu_afili 65, agnoa(2011) agnov(2011)}{p_end}

@@ -367,8 +367,9 @@ afiliado. Para m\'as informaci\'on ver \cite{compIIIcapII}} se determinar\'an
 considerando (1) las edades actuariales (entero m\'as cercano a la edad expresada
 como un n\'umero real) que el afiliado y sus beneficiarios ten\'ian a la fecha
 del siniestro y (2) la tasa de inter\'es de actualizaci\'on vigente a la misma fecha,
-que a partir de enero de 2014 es una tasa \'unica sin importar el tipo de pensi\'on.\footnote{
-Antes de esa fecha, el retiro programado era calculado en funci\'on de un vector de tasas.}
+que a partir de enero de 2014 es una tasa \'unica tanto si el afiliado se pension\'o
+por Retiro Programado o por Renta Vitalicia.\footnote{
+Antes de esa fecha, para el Retiro Programado se utilizaba un vector de tasas.}
 
 La fecha utilizada para el c\'alculo depende del tipo de pensi\'on que se est\'e
 calculando. Para pensiones por vejez tal fecha corresponder\'a a la fecha
@@ -382,7 +383,7 @@ En el caso del c\'alculo utilizando un vector de tasas, es importante considerar
 que el vector debe ajustarse al n\'umero de a\~nos al que se est\'a proyectando,
 es decir, si el largo del vector es menor que el n\'umero de periodos a proyectar,
 el vector se debe extender repitiendo el \'ultimo valor de este cuantas veces sea
-necesario. El n\'umero de peridos a proyectar depender\'a de las tablas de mortalidad.
+necesario. El n\'umero de periodos a proyectar depender\'a de las tablas de mortalidad.
 En el caso de que sea una tasa \'unica, basta con utilizar la misma tasa durante todos
 los periodos de proyecci\'on.
 Para entender mejor este punto, se puede referir al ejemplo de la secci\'on

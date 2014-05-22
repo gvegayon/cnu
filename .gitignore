@@ -1,0 +1,7 @@
+*.sum
+*.pdf
+*.doc
+*.docx
+
+*.log
+*.aux
