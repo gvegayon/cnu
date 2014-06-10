@@ -24,7 +24,8 @@ program def cnu_sobr_cnyg_s_h, rclass
 			Fsiniestro(integer 0)
 			VFsiniestro(varname)
 			NORP
-			RV(real 0.032)
+			RV(real -1e100)
+			RP(real -1e100)
 			VRV(varname)
 			]
 	;
@@ -86,7 +87,7 @@ program def cnu_sobr_cnyg_s_h, rclass
 		tempvar vrv
 		gen `vrv' = `rv'
 	}
-	if (length("`vrp'" == 0) {
+	if (length("`vrp'") == 0) {
 		tempvar vrp
 		gen `vrp' = `rp'
 	}
