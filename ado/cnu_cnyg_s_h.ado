@@ -1,4 +1,4 @@
-*! vers 1.14.5 22may2014
+*! vers 1.14.6.27 27jun2014
 *! auth: George G. Vega
 *! 2.1 Afiliado pensionado
 
@@ -107,11 +107,11 @@ program def cnu_cnyg_s_h, rclass
 	// Vector
 	if (length("`vrv'") == 0) {
 		tempvar vrv
-		gen `vrv' = `rv'
+		gen double `vrv' = `rv'
 	}
 	if (length("`vrp'") == 0) {
 		tempvar vrp
-		gen `vrp' = `rp'
+		gen double `vrp' = `rp'
 	}
 	
 	// Agno vector

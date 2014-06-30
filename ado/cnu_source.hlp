@@ -888,6 +888,57 @@ end
 *! {c BLC}{dup 78:{c -}}{c BRC}
 *! {smcl}
 *! {c TLC}{dup 78:{c -}}{c TRC}
+*! {c |} {bf:Beginning of file -cnu_faj.mata-}{col 83}{c |}
+*! {c BLC}{dup 78:{c -}}{c BRC}
+mata
+{smcl}
+*! {marker cnu_faji}{bf:function -{it:cnu_faji}- in file -{it:cnu_faj.mata}-}
+*! {back:{it:(previous page)}}
+*!{dup 78:{c -}}{asis}
+real scalar function cnu_faji(
+    real scalar x,          // Edad del afiliado
+    string scalar tipocnu,  // "soltero", "casado"
+    real scalar rp0,        // Retiro programado de referencia
+    real scalar mujer,      // Escalar binario (1 si el cotizante es mujer)
+    string scalar tipo_tm,  // Tipo de tabla de mortalidad (rv, mi, b)
+    real scalar agnovec,    // Agno del vector
+    real scalar rp,
+    real scalar agnotabla,  // Agno de la tabla de mortalidad del cotizante
+    real scalar agnoactual, // Agno actual (de calculo)
+    real scalar fsiniestro, // Fecha en que ocurre el siniestro (se utiliza para asignar la tabla)
+  | real scalar stepprint,
+    string scalar path_tm,  // Directorio donde buscar las tablas de mortalidad
+    string scalar path_v    
+    ) {
+
+    // Verificando tipo de pension a calcular
+    if (!regexm(tipocnu,"soltero|soltero")) _error(1)
+    
+    // Proyectando CNU
+    real colvector cnu_afil, xs, agnosa
+    real scalar n
+    
+    xs     = x::110
+    n      = length(xs)
+    agnosa = agnoactual::(agnoactual + n-1)
+    
+    cnu_afil = cnu_2_1(
+        xs, J(n,1,mujer), J(n,1,tipo_tm), J(n,1,agnovec), 0, -1e100, rp, J(n,1,agnotabla),
+        agnosa,J(n,1,fsiniestro), J(n,1,1), 0, path_tm, path_v
+        )
+    cnu_afil
+    return(1)
+    
+}
+
+cnu_faji(65,"soltero",10,0,"rv",2013,.03,2009,2014,0)
+end
+*! {smcl}
+*! {c TLC}{dup 78:{c -}}{c TRC}
+*! {c |} {bf:End of file -cnu_faj.mata-}{col 83}{c |}
+*! {c BLC}{dup 78:{c -}}{c BRC}
+*! {smcl}
+*! {c TLC}{dup 78:{c -}}{c TRC}
 *! {c |} {bf:Beginning of file -cnu_2_1.mata-}{col 83}{c |}
 *! {c BLC}{dup 78:{c -}}{c BRC}
 *! version 0.13.10.23 23oct2013

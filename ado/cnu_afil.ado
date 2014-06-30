@@ -1,4 +1,4 @@
-*! vers 1.13.11 08nov2013
+*! vers 1.14.6.27 27jun2014
 *! auth: George G. Vega
 *! Calcula CNU para Afiliado pensionado (Segun punto 2.1 del anexo de la circular
 *! 1626)
@@ -84,11 +84,11 @@ program def cnu_afil, rclass
 	// Vector
 	if (length("`vrv'") == 0) {
 		tempvar vrv
-		gen `vrv' = `rv'
+		gen double `vrv' = `rv'
 	}
 	if (length("`vrp'") == 0) {
 		tempvar vrp
-		gen `vrp' = `rp'
+		gen double `vrp' = `rp'
 	}
 	
 	// Agno vector
