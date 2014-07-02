@@ -76,7 +76,7 @@ program def cnu_faji, rclass
 		st_local("generate", strofreal(
 			cnu_faj(
 				`x', 
-				st_tempname()=cnu_proy_cnu(
+				cnu_proy_cnu(
 					`x', `y', `cotmujer', `conymujer', "`tipotabla'",
 					"`tipotablabenef'", `agnovector', 0, J(110-`x'+1,1,-1e100),
 					J(110-`x'+1,1,`rp'), `agnotabla', `agnotablabenef',
@@ -164,9 +164,18 @@ forval i=2/`=c(N)' {
 	di "pens:`=pension[`i']' mini:`mini'"
 }
  
-local pens = pension[1]
-gen pension_pcent = pension/`pens'
-lab var pension_pcent "Porcentaje de la primera pension"
+lab var pension "% Pension ref (FAJ)"
+
+cnu_proy_pens 65
+mat def pension_pcent_sinfaj = r(pens)
+svmat pension_pcent_sinfaj
+
+lab var pension_pcent_sinfaj "% Pension ref (sin FAJ)"
+
+local pens = pension_pcent_sinfaj[1]
+replace pension = pension/`pens'
+replace pension_pcent_sinfaj = pension_pcent_sinfaj/`pens'
 
 tsset edad
-tsline pension_pcent, ylab(0(.10)1)
+tsline pension*, ylab(0(.10)1)
+

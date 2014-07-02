@@ -92,4 +92,4 @@ program def cnu_proy_pens, rclass
 	
 end
 
-cnu_proy_pens 65
+
