@@ -176,6 +176,8 @@ local pens = pension_pcent_sinfaj[1]
 replace pension = pension/`pens'
 replace pension_pcent_sinfaj = pension_pcent_sinfaj/`pens'
 
+replace pension = 0 if pension == .
+replace edad = edad[_n-1] + 1 if edad == .
 tsset edad
 tsline pension*, ylab(0(.10)1)
 

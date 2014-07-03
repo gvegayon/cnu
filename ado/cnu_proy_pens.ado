@@ -10,6 +10,7 @@ program def cnu_proy_pens, rclass
 	#delimit ;
 	syntax 
 		anything(name=z id="x e y") [ ,
+			Saldo(real 0)
 			Tabla(string)
 			DIRTablas(string) 
 			DIRVectores(string)
@@ -40,7 +41,7 @@ program def cnu_proy_pens, rclass
 	else local pasos = 0
 	
 	// Chequea RP0
-	if (`rp0' == 0) local rp0 .
+	if (`saldo' == 0) local saldo 1
 	
 	// Selecciona tabla cotizante
 	if length("`tabla'") == 0 {
@@ -70,7 +71,7 @@ program def cnu_proy_pens, rclass
 		st_matrix("mimat", 
 			cnu_proy_pens(
 				`x', `y', `cotmujer', `conymujer', "`tipotabla'",
-				"`tipotablabenef'", `agnovector', `rp', `agnotabla',
+				"`tipotablabenef'", `saldo', `agnovector', `rp', `agnotabla',
 				`agnotablabenef', `agnoactual', `fsiniestro', `pasos',
 				"`dirtablas'","`dirvectores'"
 			)
@@ -93,3 +94,5 @@ program def cnu_proy_pens, rclass
 end
 
 
+cnu_proy_pens 65, s(1000)
+mat list r(pens)
