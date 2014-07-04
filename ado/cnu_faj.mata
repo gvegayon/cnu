@@ -1,4 +1,4 @@
-mata mata clear
+cap mata mata drop cnu_proy_cnu()
 mata
 real colvector function cnu_proy_cnu(
 	real scalar x,              // Edad del afiliado
@@ -59,6 +59,7 @@ real colvector function cnu_proy_cnu(
 /**moxygen
  * @brief Funcion objetivo a optimizar
  **/
+stata("cap mata mata drop cnu_faj_fun_obj()")
 real scalar function cnu_faj_fun_obj(
 	real scalar faj,
 	real scalar x,
@@ -96,7 +97,8 @@ real scalar function cnu_faj_fun_obj(
  * @param saldo Escalar. Saldo al momento del retiro
  * @param pref  Escalar. % de referencia
  */
- 
+
+stata("cap mata mata drop cnu_faj()")
 real scalar function cnu_faj(
 	real scalar x,
 	real colvector cnu,
@@ -127,6 +129,7 @@ real scalar function cnu_faj(
 	rango = maxr-minr
 	real scalar niter
 	niter = 0
+	
 	while ((rango > criter) & (++niter < maxiter))
 	{
 		faj1 = minr + rango/3
@@ -144,7 +147,7 @@ real scalar function cnu_faj(
 	if (val1 < val2) return(faj1)
 	else return(faj2)
 }
-
+stata("cap mata mata drop cnu_faj_vec()")
 real colvector function cnu_faj_vec(
 	real colvector vedadm,         // Edad max a cubrir por FAJ
 	real colvector vsaldo,         // Saldo del afiliado

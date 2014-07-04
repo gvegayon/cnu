@@ -8,7 +8,7 @@ real matrix function cnu_proy_pens(
 	real scalar conymujer,      // Escalar binario (1 si el cotizante es mujer)
 	string scalar tipo_tm_cot,  // Tipo de tabla de mortalidad (rv, mi, b)
 	string scalar tipo_tm_cony, // Tipo de tabla de mortalidad (rv, mi, b)
-	real scalar saldoi,
+	real scalar saldoi,         // Saldo al momento del retiro
 	real scalar agnovec,        // Agno del vector
 	real scalar rp,             // Tasa RP a utilizar
 	real scalar agnotabla,      // Agno de la tabla de mortalidad del cotizante
@@ -18,7 +18,7 @@ real matrix function cnu_proy_pens(
   | real scalar confaj,         // Si es con factor de ajuste o no
 	real scalar edadm,          // (FAJ) Edad max 
 	real scalar pcent,          // (FAJ) Porcentaje a cubrir 
-	real scalar rp0,            // (FAJ) Monto ahorrado inicial 
+	real scalar rp0,            // (FAJ) Pension de referencia (puede autocalcularse) 
 	real scalar criter,         // (FAJ) Criterio de convergencia
 	real scalar maxiter,        // (FAJ) Max num de iteraciones
 	real scalar stepprint,
@@ -30,13 +30,13 @@ real matrix function cnu_proy_pens(
 	real matrix vec
 	real scalar i, N, tasa
 	
-	N = 110 - x 
+	N = 110 - x + 1
 	
 	// Calculando CNU que se utilizara
 	cnu = cnu_proy_cnu(x,y,cotmujer,conymujer,tipo_tm_cot,
 			tipo_tm_cony, agnovec, 0, J(191,1,rp), J(191,1,-1e100), agnotabla,
 			agnotablabenef, agnoactual, fsiniestro, 0, path_tm, path_v)
-			
+
 	if (rp != -1e100) vec = ((1::191), J(191,1,rp))
 	else vec = cnu_get_vec_tasas(agnovec, path_v)
 	
@@ -46,13 +46,18 @@ real matrix function cnu_proy_pens(
 	if (!confaj) 
 	{
 		pens  = J(N,1,.)
-		saldo = J(N,1,saldoi)
-		for(i=1;i<=N;i++)
+		saldo = J(N,1,.)
+		
+		pens[1]  = saldoi/cnu[1]
+		saldo[1] = (saldoi - pens[1])*(1+vec[1,2])
+		for(i=2;i<=N;i++)
 		{
-			pens[i]  = saldo[i]/cnu[i]
-			if (i==1) saldo[i] = (saldo[i] - pens[i])*(1+vec[i,2])
-			else      saldo[i] = (saldo[i-1] - pens[i])*(1+vec[i,2])
+			pens[i]  = saldo[i-1]/cnu[i]
+			saldo[i] = max(
+				(0,(saldo[i-1] - pens[i])*(1+vec[i,2]))
+				)
 		}
+		return((saldo,pens))
 	}
 	// Pension con factor de ajuste
 	else
@@ -64,93 +69,57 @@ real matrix function cnu_proy_pens(
 			criter, maxiter)
 		
 		// Iniciando simulacion
-		pens      = J(edadm-x,1,.)
+		pens      = J(N,1,.)
 		pensfaj   = pcent*saldoi/cnu[1]
-		saldofaj  = J(edadm-x,1,0)
+		saldofaj  = J(N,1,0)
 		fajactivo = 0
-		saldo     = J(edadm-x,1,saldoi)
-		for(i=1;i<=(edadm-x);i++)
+		saldo     = J(N,1,.)
+		
+		pens[1]     = pensfaj/pcent*(1-faj)
+		saldo[1]    = (saldoi - pens[1] - pens[1]/(1-faj)*faj)*(1+vec[1,2])
+		saldofaj[1] = pens[1]/(1-faj)*faj*(1+vec[1,2])
+		for(i=2;i<=N;i++)
 		{
 			// Si faj no esta activo
 			if (!fajactivo)
 			{
-				pens[i] = saldo[i]/cnu[i]*(1-faj)
+				pens[i] = saldo[i-1]/cnu[i]*(1-faj)
 			
-				if (pens[i] < pensfaj)
-				{
-					pens[i]     = pensfaj
-					saldofaj[i] = 0
-					saldo[i]    = saldo[i-1] + saldofaj[i-1]
-					fajactivo   = 1
-				}
-				
-			}
-			
-			if (!fajactivo)
-			{
-				if (i==1) 
-				{
-					saldo[i]    = (saldo[i] - pens[i] - saldo[i]/cnu[i]*faj)*(1+vec[i,2])
-					saldofaj[i] = (saldo[i]/cnu[i]*faj)*(1+vec[i,2])
-				}
-				else
+				// Si es que la pension sigue siendo superior que la pension
+				// FAJ. entonces entrar. De lo contrario, se activa la pension
+				// FAJ y deja de entrar a este nivel.
+				if (pens[i] > pensfaj)
 				{
 					saldofaj[i] = (saldofaj[i-1] + saldo[i-1]/cnu[i]*faj)*(1+vec[i,2])
-					saldo[i]    = (saldo[i-1] - pens[i] - saldo[i-1]/cnu[i]*faj)*(1+vec[i,2])
+					saldo[i]    = (saldo[i-1] - saldo[i-1]/cnu[i])*(1+vec[i,2])
+					continue
 				}
+											
+				fajactivo   = 1
+				
 			}
-			else
+
+			// Calculando pension y saldos segun FAJ
+			if ( (saldofaj[i-1] - (pensfaj-saldo[i-1]/cnu[i])) < 0) 
 			{
-				pens[i] = pensfaj
-				saldo[i] = (saldo[i-1] - pens[i])*(1+vec[i,2])
+				pens[i]  = saldo[i-1]/cnu[i]
+				saldo[i] = (saldo[i-1] - saldo[i-1]/cnu[i])*(1+vec[i,2])
+				continue
 			}
-		/*
-		
-		// Pension agno a ango
-		gen saldo     = 1 in 1
-		gen pension   = saldo/cnu*(1-faj) in 1
-		gen saldo_faj = saldo/cnu*faj in 1
-		replace saldo = (saldo - pension - saldo_f)*(1+`tasa') in 1
 
-		local mini    = `mini'*saldo[1]/cnu[1]
-		di `mini'
-		local activo = 0
-		// Pension con faj
-forval i=2/`=c(N)' {
+			pens[i]     = pensfaj
+			saldo[i]    = (saldo[i-1] - saldo[i-1]/cnu[i])*(1+vec[i,2])
+			saldofaj[i] = (saldofaj[i-1] - (pensfaj-saldo[i-1]/cnu[i]))*(1+vec[i,2])
 
-	quietly {
-	
-		// Monto de pension
-		if (!`activo') {
-			replace pension   = saldo[_n-1]/cnu*(1-faj) in `i'
-			
-			if (pension[`i'] < `mini') {
-				replace pension = `mini' if _n >= `i'
-				replace saldo_f = 0 if _n >= `i'
-				local activo = 1
-			}
 		}
-
-		// Ajuste de saldos
-		if (!`activo') {
-			replace saldo_faj = (saldo_faj[_n-1] + saldo[_n-1]/cnu*faj)*(1+`tasa') in `i'
-			replace saldo     = (saldo[_n-1] - pension - saldo[_n-1]/cnu*faj)*(1+`tasa') in `i'
-		}
-		else {
-			replace saldo = (saldo[_n-1] - pension + saldo_f[_n-1])*(1+`tasa') in `i'
-		}
-
+		return((saldo,J(N,1,faj),saldofaj,pens))
 	}
-	di "pens:`=pension[`i']' mini:`mini'"
-}
- 
-		*/
-		}
 	
-	}
-	return((saldo,pens))
 }
 
-x=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,1)
+x=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,0)
+
+y=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,1)
 x
+y
 end

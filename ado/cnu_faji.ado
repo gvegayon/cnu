@@ -13,7 +13,7 @@ program def cnu_faji, rclass
 			EDADMaxima(integer 98)
 			saldo(real 1)
 			pcent(real 0.3)
-			rp0(integer 0)
+			rp0(real 0.0)
 			CRIter(real 1e-6)
 			MAXIter(integer 100)
 			Tabla(string)
