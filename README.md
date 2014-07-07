@@ -13,9 +13,13 @@ hijos.
 Para instalar debe seguir los siguientes pasos:
 1. Descargar los archivos (ya sea utilizando Git o descargandolo desde
 [aqui](https://github.com/gvegayon/cnu/archive/master.zip)
+
 2. Extraer los archivos en ZIP en, por ejemplo, C:/
+
 3. Copiar todos los archivos ADO HLP y STHLP en su carpeta PERSONAL/c de Stata
+
 4. Copiar el archivo `lcnu.mlib` en su carpeta PERSONAL/l de Stata
+
 5. Copiar los archivos `cnu_tabmor...` y `cnu_vec...` en su carpeta PERSONAL/c de Stata
 
 ## Autor
