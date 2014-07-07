@@ -130,6 +130,49 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt dirt:ablas}({help string})
 {opt dirv:ectores}({help string})]
 
+{phang}
+Factor de Ajuste.
+
+{p 8 17 2}
+{cmdab:cnu_faj} {help varname:x} {help varname:y}
+, {opt g:enerate}({help newvar})
+[{opt r:eplace}
+{opt t:abla}({help string})
+{opt vt:abla}({help varname})
+{opt tablab:enef}({help string})
+{opt vtablab:enef}({help varname})
+{opt cotm:ujer}({help varname})
+{opt conym:ujer}({help varname})
+{opt agnov:ector}({help integer})
+{opt vagnov:ector}({help varname})
+{opt agnoa:ctual}({help integer})
+{opt vagnoa:ctual}({help varname})
+{opt f:siniestro}({help integer})
+{opt vf:siniestro}({help varname})
+{opt norp}
+{opt rv}({help real})
+{opt rp}({help real})
+{opt vrv}({help varname})
+{opt vrp}({help varname})
+{opt dirt:ablas}({help string})
+{opt dirv:ectores}({help string})]
+{p_end}
+{p 8 17 2}
+{cmdab:cnu_faji} {help integer:x} {help integer:y}
+[ ,{opt t:abla}({help string})
+{opt tablab:enef}({help string})
+{opt cotm:ujer}({help integer})
+{opt conym:ujer}({help integer})
+{opt agnov:ector}({help integer})
+{opt agnoa:ctual}({help integer})
+{opt f:siniestro}({help integer})
+{opt norp}
+{opt rv}({help real})
+{opt rp}({help real})
+{opt pasos}
+{opt dirt:ablas}({help string})
+{opt dirv:ectores}({help string})]
+
 {synoptset 25 tabbed}{...}
 {synopthdr}
 {synoptline}

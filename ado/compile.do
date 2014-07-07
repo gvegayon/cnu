@@ -12,6 +12,8 @@ mata mata mlib create lcnu, replace
 do cnu_1_1.mata
 do cnu_2_1.mata
 do cnu_2_2.mata
+do cnu_faj.mata
+do cnu_proy_pens.mata
 do utils.mata
 mata mata mlib add lcnu *()
 

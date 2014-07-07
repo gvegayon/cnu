@@ -15,6 +15,8 @@ f ado/cnu_cnyg_s_h.ado
 f ado/cnu_cnyg_s_hi.ado
 f ado/cnu_sobr_cnyg_s_h.ado
 f ado/cnu_sobr_cnyg_s_hi.ado
+f ado/cnu_proy_pens.ado
+f ado/cnu_faji.ado
 F ado/lcnu.mlib
 
 f ado/cnu_afil.hlp
