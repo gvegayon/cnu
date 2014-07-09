@@ -165,12 +165,12 @@ real colvector function cnu_faj_vec(
 	real colvector agnotablabenef, // Agno de la tabla de mortalidad del cotizante
 	real colvector agnoactual,     // Agno actual (de calculo)
 	real colvector fsiniestro,     // Fecha en que ocurre el siniestro (se utiliza para asignar la tabla)
+	real colvector touse,
   | real scalar stepprint,
 	real scalar criter,            // Prescision (optimizacion)
 	real scalar maxiter,           // Maximo numero de iteraciones (optim)
 	string scalar path_tm,         // Directorio donde buscar las tablas de mortalidad
 	string scalar path_v	       // Directorio donde buscar vectores de tasa
-	
 ) {
 	real scalar N, i
 	N = length(x)
@@ -180,7 +180,11 @@ real colvector function cnu_faj_vec(
 	rv_a = J(110-x[i]+1,1,-1e100)
 	for(i=1;i<=N;i++)
 	{
-		rp_a = J(110-x[i]+1,1,rp[i])
+		parallel_break()
+		
+		if (!touse[i]) continue
+	
+		rp_a = J(110,1,rp[i])
 		
 		// Calculando proyeccion del CNU
 		cnu = cnu_proy_cnu(x[i],y[i],cotmujer[i],conymujer[i],tipo_tm_cot[i],
@@ -190,12 +194,13 @@ real colvector function cnu_faj_vec(
 		// Calculando FAJ
 		faj[i] = cnu_faj(x[i], cnu, rp_a, vedadm[i], vsaldo[i], vpcent[i],
 			vrp0[i], criter, maxiter)
+
 	}
 	
 	return(faj)
 	
 }
-	
+	/*
 // Proyecta el CNU
 cnu  = cnu_proy_cnu(65,67,0,1,"rv","b",2013,0,J(110-65+1,1,-1e100),J(110-65+1,1,.03),2009,2006,2014,0)
 rp_a = J(110-65+1,1,.03)
@@ -220,4 +225,5 @@ cnu_faj(65, cnu2)
 	real scalar saldo,
 	real scalar pcent,
 	real scalar rp0*/
+*/
 end

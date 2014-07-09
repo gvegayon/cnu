@@ -44,28 +44,27 @@ real colvector cnu_2_1_vec(
 		accionada por parallel */
 		parallel_break()
 		
-		if (touse[j,1]) { // Revisa si debe incluirse o no
+		if (touse[j]) continue
 
-			edad = x[j,1]
-			sex=mujer[j,1]
-			
-			if (path_v=="")	vecexists = fileexists(c("sysdir_plus")+"c/cnu_vec"+strofreal(agnovec[j]))
-			else vecexists = fileexists(path_v+"cnu_vec"+strofreal(agnovec[j]))
-			
-			if (edad >= 20 & edad <= 110 & vecexists) {
-							
-				// Guarda resultado en vector CNU			
-				cnu[j,1] = cnu_2_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
-			}
-			else if (edad < 20) { // No puede calcular CNU por ser menor de 20
-				if (nerr_menor_20++ < 20) err_menor_20 = err_menor_20+strofreal(j)+" "
-			}
-			else if (!vecexists) { // Vector inexistente
-				if (nerr_vector++ < 20) err_vector = err_vector+strofreal(j)+" "
-			}
-			else { // No puede calcular CNU por ser mayor de 110
-				if (nerr_mayor_110++ < 20) err_mayor_110 = err_mayor_110+strofreal(j)+" "
-			}
+		edad = x[j,1]
+		sex=mujer[j,1]
+		
+		if (path_v=="")	vecexists = fileexists(c("sysdir_plus")+"c/cnu_vec"+strofreal(agnovec[j]))
+		else vecexists = fileexists(path_v+"cnu_vec"+strofreal(agnovec[j]))
+		
+		if (edad >= 20 & edad <= 110 & vecexists) {
+						
+			// Guarda resultado en vector CNU			
+			cnu[j,1] = cnu_2_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
+		}
+		else if (edad < 20) { // No puede calcular CNU por ser menor de 20
+			if (nerr_menor_20++ < 20) err_menor_20 = err_menor_20+strofreal(j)+" "
+		}
+		else if (!vecexists) { // Vector inexistente
+			if (nerr_vector++ < 20) err_vector = err_vector+strofreal(j)+" "
+		}
+		else { // No puede calcular CNU por ser mayor de 110
+			if (nerr_mayor_110++ < 20) err_mayor_110 = err_mayor_110+strofreal(j)+" "
 		}
 	}
 

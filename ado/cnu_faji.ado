@@ -108,7 +108,7 @@ program def cnu_faji, rclass
 	return scalar faj = `generate'
 	
 end
-
+/*
 // Ejercicio proyectando pension
 clear
 
@@ -163,7 +163,7 @@ forval i=2/`=c(N)' {
 	}
 	di "pens:`=pension[`i']' mini:`mini'"
 }
- 
+/* 
 lab var pension "% Pension ref (FAJ)"
 
 cnu_proy_pens 65

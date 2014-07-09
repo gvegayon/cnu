@@ -460,6 +460,144 @@ end
 *! {c BLC}{dup 78:{c -}}{c BRC}
 *! {smcl}
 *! {c TLC}{dup 78:{c -}}{c TRC}
+*! {c |} {bf:Beginning of file -cnu_proy_pens.mata-}{col 83}{c |}
+*! {c BLC}{dup 78:{c -}}{c BRC}
+
+*cap mata mata drop cnu_proy_pens()
+mata:
+{smcl}
+*! {marker cnu_proy_pens}{bf:function -{it:cnu_proy_pens}- in file -{it:cnu_proy_pens.mata}-}
+*! {back:{it:(previous page)}}
+*!{dup 78:{c -}}{asis}
+real matrix function cnu_proy_pens(
+    real scalar x,              // Edad del afiliado
+    real scalar y,              // Edad del conyuge
+    real scalar cotmujer,       // Escalar binario (1 si el cotizante es mujer)
+    real scalar conymujer,      // Escalar binario (1 si el cotizante es mujer)
+    string scalar tipo_tm_cot,  // Tipo de tabla de mortalidad (rv, mi, b)
+    string scalar tipo_tm_cony, // Tipo de tabla de mortalidad (rv, mi, b)
+    real scalar saldoi,         // Saldo al momento del retiro
+    real scalar agnovec,        // Agno del vector
+    real scalar rp,             // Tasa RP a utilizar
+    real scalar agnotabla,      // Agno de la tabla de mortalidad del cotizante
+    real scalar agnotablabenef, // Agno de la tabla de mortalidad del cotizante
+    real scalar agnoactual,     // Agno actual (de calculo)
+    real scalar fsiniestro,     // Fecha en que ocurre el siniestro (se utiliza para asignar la tabla)
+  | real scalar confaj,         // Si es con factor de ajuste o no
+    real scalar edadm,          // (FAJ) Edad max 
+    real scalar pcent,          // (FAJ) Porcentaje a cubrir 
+    real scalar rp0,            // (FAJ) Pension de referencia (puede autocalcularse) 
+    real scalar criter,         // (FAJ) Criterio de convergencia
+    real scalar maxiter,        // (FAJ) Max num de iteraciones
+    real scalar stepprint,
+    string scalar path_tm,      // Directorio donde buscar las tablas de mortalidad
+    string scalar path_v    
+) {
+
+    real colvector cnu, pens
+    real matrix vec
+    real scalar i, N, tasa
+    
+    N = 110 - x + 1
+    
+    // Calculando CNU que se utilizara
+    cnu = cnu_proy_cnu(x,y,cotmujer,conymujer,tipo_tm_cot,
+            tipo_tm_cony, agnovec, 0, J(191,1,rp), J(191,1,-1e100), agnotabla,
+            agnotablabenef, agnoactual, fsiniestro, 0, path_tm, path_v)
+
+    if (rp != -1e100) vec = ((1::191), J(191,1,rp))
+    else vec = cnu_get_vec_tasas(agnovec, path_v)
+    
+    real colvector saldo
+    
+    // Pension sin factor de ajuste
+    if (!confaj) 
+    {
+        pens  = J(N,1,.)
+        saldo = J(N,1,.)
+        
+        pens[1]  = saldoi/cnu[1]
+        saldo[1] = (saldoi - pens[1])*(1+vec[1,2])
+        for(i=2;i<=N;i++)
+        {
+            pens[i]  = saldo[i-1]/cnu[i]
+            saldo[i] = max(
+                (0,(saldo[i-1] - pens[i])*(1+vec[i,2]))
+                )
+        }
+        return((saldo,pens))
+    }
+    // Pension con factor de ajuste
+    else
+    {
+        real scalar faj, fajactivo, pensfaj, saldofaj
+        
+        // Calculando FAJ
+        faj = cnu_faj(x, cnu, vec[,2], edadm, saldoi, pcent, rp0,
+            criter, maxiter)
+        
+        // Iniciando simulacion
+        pens      = J(N,1,.)
+        pensfaj   = pcent*saldoi/cnu[1]
+        saldofaj  = J(N,1,0)
+        fajactivo = 0
+        saldo     = J(N,1,.)
+        
+        pens[1]     = pensfaj/pcent*(1-faj)
+        saldo[1]    = (saldoi - pens[1] - pens[1]/(1-faj)*faj)*(1+vec[1,2])
+        saldofaj[1] = pens[1]/(1-faj)*faj*(1+vec[1,2])
+        for(i=2;i<=N;i++)
+        {
+            // Si faj no esta activo
+            if (!fajactivo)
+            {
+                pens[i] = saldo[i-1]/cnu[i]*(1-faj)
+            
+                // Si es que la pension sigue siendo superior que la pension
+                // FAJ. entonces entrar. De lo contrario, se activa la pension
+                // FAJ y deja de entrar a este nivel.
+                if (pens[i] > pensfaj)
+                {
+                    saldofaj[i] = (saldofaj[i-1] + saldo[i-1]/cnu[i]*faj)*(1+vec[i,2])
+                    saldo[i]    = (saldo[i-1] - saldo[i-1]/cnu[i])*(1+vec[i,2])
+                    continue
+                }
+                                            
+                fajactivo   = 1
+                
+            }
+
+            // Calculando pension y saldos segun FAJ
+            if ( (saldofaj[i-1] - (pensfaj-saldo[i-1]/cnu[i])) < 0) 
+            {
+                pens[i]  = saldo[i-1]/cnu[i]
+                saldo[i] = (saldo[i-1] - saldo[i-1]/cnu[i])*(1+vec[i,2])
+                continue
+            }
+
+            pens[i]     = pensfaj
+            saldo[i]    = (saldo[i-1] - saldo[i-1]/cnu[i])*(1+vec[i,2])
+            saldofaj[i] = (saldofaj[i-1] - (pensfaj-saldo[i-1]/cnu[i]))*(1+vec[i,2])
+
+        }
+        return((saldo,J(N,1,faj),saldofaj,pens))
+    }
+    
+}
+/*
+x=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,0)
+
+y=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,1)
+x
+y
+*/
+end
+*! {smcl}
+*! {c TLC}{dup 78:{c -}}{c TRC}
+*! {c |} {bf:End of file -cnu_proy_pens.mata-}{col 83}{c |}
+*! {c BLC}{dup 78:{c -}}{c BRC}
+*! {smcl}
+*! {c TLC}{dup 78:{c -}}{c TRC}
 *! {c |} {bf:Beginning of file -cnu_1_1.mata-}{col 83}{c |}
 *! {c BLC}{dup 78:{c -}}{c BRC}
 *! version 0.13.10.23 23oct2013
@@ -890,48 +1028,250 @@ end
 *! {c TLC}{dup 78:{c -}}{c TRC}
 *! {c |} {bf:Beginning of file -cnu_faj.mata-}{col 83}{c |}
 *! {c BLC}{dup 78:{c -}}{c BRC}
+cap mata mata drop cnu_proy_cnu()
 mata
 {smcl}
-*! {marker cnu_faji}{bf:function -{it:cnu_faji}- in file -{it:cnu_faj.mata}-}
+*! {marker cnu_proy_cnu}{bf:function -{it:cnu_proy_cnu}- in file -{it:cnu_faj.mata}-}
 *! {back:{it:(previous page)}}
 *!{dup 78:{c -}}{asis}
-real scalar function cnu_faji(
-    real scalar x,          // Edad del afiliado
-    string scalar tipocnu,  // "soltero", "casado"
-    real scalar rp0,        // Retiro programado de referencia
-    real scalar mujer,      // Escalar binario (1 si el cotizante es mujer)
-    string scalar tipo_tm,  // Tipo de tabla de mortalidad (rv, mi, b)
-    real scalar agnovec,    // Agno del vector
-    real scalar rp,
-    real scalar agnotabla,  // Agno de la tabla de mortalidad del cotizante
-    real scalar agnoactual, // Agno actual (de calculo)
-    real scalar fsiniestro, // Fecha en que ocurre el siniestro (se utiliza para asignar la tabla)
+real colvector function cnu_proy_cnu(
+    real scalar x,              // Edad del afiliado
+    real scalar y,              // Edad del conyuge
+    real scalar cotmujer,       // Escalar binario (1 si el cotizante es mujer)
+    real scalar conymujer,      // Escalar binario (1 si el cotizante es mujer)
+    string scalar tipo_tm_cot,  // Tipo de tabla de mortalidad (rv, mi, b)
+    string scalar tipo_tm_cony, // Tipo de tabla de mortalidad (rv, mi, b)
+    real scalar agnovec,        // Agno del vector
+    real scalar norp,           // 1 si no corresponde a RP
+    real colvector rp,          // Tasa RP a utilizar
+    real colvector rv,          // Tasa RV a utilizar
+    real scalar agnotabla,      // Agno de la tabla de mortalidad del cotizante
+    real scalar agnotablabenef, // Agno de la tabla de mortalidad del cotizante
+    real scalar agnoactual,     // Agno actual (de calculo)
+    real scalar fsiniestro,     // Fecha en que ocurre el siniestro (se utiliza para asignar la tabla)
   | real scalar stepprint,
-    string scalar path_tm,  // Directorio donde buscar las tablas de mortalidad
+    string scalar path_tm,      // Directorio donde buscar las tablas de mortalidad
     string scalar path_v    
     ) {
 
-    // Verificando tipo de pension a calcular
-    if (!regexm(tipocnu,"soltero|soltero")) _error(1)
-    
     // Proyectando CNU
-    real colvector cnu_afil, xs, agnosa
+    real colvector cnu, xs, agnosa
     real scalar n
     
     xs     = x::110
     n      = length(xs)
     agnosa = agnoactual::(agnoactual + n-1)
     
-    cnu_afil = cnu_2_1(
-        xs, J(n,1,mujer), J(n,1,tipo_tm), J(n,1,agnovec), 0, -1e100, rp, J(n,1,agnotabla),
-        agnosa,J(n,1,fsiniestro), J(n,1,1), 0, path_tm, path_v
+    if (all(rp :== -1e100)) rp = J(n,1,.03)
+    if (all(rv :== -1e100)) rv = J(n,1,.03)
+    
+    cnu = cnu_2_1_vec(
+        xs, J(n,1,cotmujer), J(n,1,tipo_tm_cot), J(n,1,agnovec), norp, rv, rp,
+        J(n,1,agnotabla), agnosa,J(n,1,fsiniestro), J(n,1,1), stepprint,
+        path_tm, path_v
         )
-    cnu_afil
-    return(1)
+
+    // Si es que tiene conyuge
+    if (y != .) 
+    {
+        real colvector ys
+        ys  = y::(y+n-1)
+            
+        cnu = cnu + editmissing(cnu_2_2_vec(
+                xs, ys, J(n,1,cotmujer), J(n,1,conymujer),
+                J(n,1,tipo_tm_cot), J(n,1,tipo_tm_cony),
+                J(n,1,agnovec), norp, rv, rp,
+                J(n,1,agnotabla), J(n,1,agnotablabenef),
+                agnosa,J(n,1,fsiniestro), J(n,1,1), path_tm, path_v
+            ),0)
+        
+    }            
+    return(cnu)
     
 }
 
-cnu_faji(65,"soltero",10,0,"rv",2013,.03,2009,2014,0)
+/**moxygen
+ * @brief Funcion objetivo a optimizar
+ **/
+stata("cap mata mata drop cnu_faj_fun_obj()")
+{smcl}
+*! {marker cnu_faj_fun_obj}{bf:function -{it:cnu_faj_fun_obj}- in file -{it:cnu_faj.mata}-}
+*! {back:{it:(previous page)}}
+*!{dup 78:{c -}}{asis}
+real scalar function cnu_faj_fun_obj(
+    real scalar faj,
+    real scalar x,
+    real colvector cnu,
+    real colvector rp_a,
+    |real scalar edadm,
+    real scalar saldo,
+    real scalar pcent,
+    real scalar rp0
+) {
+    if (edadm == J(1,1,.)) edadm = 98.00
+    if (saldo == J(1,1,.)) saldo =  1.00
+    if (pcent == J(1,1,.)) pcent =  0.30
+    if (rp0   == J(1,1,.)) rp0   = saldo/cnu[1]
+
+    real scalar suma, t, pens_t, saldo_t
+    suma    = 0
+    saldo_t = saldo
+    
+    for(t=0;t<=edadm-x;t++)
+    {
+        pens_t  = saldo_t/cnu[t+1]
+        saldo_t = (saldo_t - pens_t)*(1+rp_a[t+1])
+        suma = suma + (pens_t - max(((1-faj)*pens_t,pcent*rp0)))/(1+rp_a[t+1])^(t + 1)
+    }
+    
+    return(suma)
+}
+
+/**moxygen
+ * @brief Calcula el factor de ajuste
+ * @param cnu   Vector columna. Trayectoria del CNU
+ * @param rp_a  Vector columna. Tasa de interes anual RP.
+ * @param edadm Escalar. Edad hasta la que cubre el FAJ
+ * @param saldo Escalar. Saldo al momento del retiro
+ * @param pref  Escalar. % de referencia
+ */
+
+stata("cap mata mata drop cnu_faj()")
+{smcl}
+*! {marker cnu_faj}{bf:function -{it:cnu_faj}- in file -{it:cnu_faj.mata}-}
+*! {back:{it:(previous page)}}
+*!{dup 78:{c -}}{asis}
+real scalar function cnu_faj(
+    real scalar x,
+    real colvector cnu,
+    |real colvector rp_a,
+    real scalar edadm,
+    real scalar saldo,
+    real scalar pcent,
+    real scalar rp0,
+    real scalar criter,
+    real scalar maxiter
+    ) {
+    
+    // Importantes en blanco
+    if (criter  == J(1,1,.)) criter = 1e-7
+    if (maxiter == J(1,1,.)) maxiter = 100
+    if (edadm == J(1,1,.)) edadm = 98
+    
+    if (rp_a == J(0,1,.)) rp_a = J(edadm - x + 1,1,.03)
+    else if (all(rp_a :== -1e100)) rp_a = J(edadm - x + 1,1,.03)
+    
+    // Resolucion a traves de una busqueda binaria
+    // Alcanza una prescision de 1e-10 en ~ 50 pasos
+    real scalar faj1, faj2, val1, val2
+    real scalar minr, maxr, rango
+    
+    minr = 0
+    maxr = 1
+    rango = maxr-minr
+    real scalar niter
+    niter = 0
+    
+    while ((rango > criter) & (++niter < maxiter))
+    {
+        faj1 = minr + rango/3
+        faj2 = minr + rango/3*2
+        
+        val1 = cnu_faj_fun_obj(faj1,x,cnu,rp_a,edadm,saldo,pcent,rp0)
+        val2 = cnu_faj_fun_obj(faj2,x,cnu,rp_a,edadm,saldo,pcent,rp0)
+        
+        if ((val1 < val2) & (val1 > 0)) maxr = faj2
+        else                            minr = faj1
+        
+        rango = maxr-minr
+    }
+    
+    if (val1 < val2) return(faj1)
+    else return(faj2)
+}
+stata("cap mata mata drop cnu_faj_vec()")
+{smcl}
+*! {marker cnu_faj_vec}{bf:function -{it:cnu_faj_vec}- in file -{it:cnu_faj.mata}-}
+*! {back:{it:(previous page)}}
+*!{dup 78:{c -}}{asis}
+real colvector function cnu_faj_vec(
+    real colvector vedadm,         // Edad max a cubrir por FAJ
+    real colvector vsaldo,         // Saldo del afiliado
+    real colvector vpcent,         // % de pension de referencia a cubrir
+    real colvector vrp0,           // pension de referencia
+    real colvector x,              // Edad del afiliado
+    real colvector y,              // Edad del conyuge
+    real colvector cotmujer,       // Escalar binario (1 si el cotizante es mujer)
+    real colvector conymujer,      // Escalar binario (1 si el cotizante es mujer)
+    string colvector tipo_tm_cot,  // Tipo de tabla de mortalidad (rv, mi, b)
+    string colvector tipo_tm_cony, // Tipo de tabla de mortalidad (rv, mi, b)
+    real colvector agnovec,        // Agno del vector
+    real colvector rp,             // Tasa RP a utilizar
+    real colvector agnotabla,      // Agno de la tabla de mortalidad del cotizante
+    real colvector agnotablabenef, // Agno de la tabla de mortalidad del cotizante
+    real colvector agnoactual,     // Agno actual (de calculo)
+    real colvector fsiniestro,     // Fecha en que ocurre el siniestro (se utiliza para asignar la tabla)
+    real colvector touse,
+  | real scalar stepprint,
+    real scalar criter,            // Prescision (optimizacion)
+    real scalar maxiter,           // Maximo numero de iteraciones (optim)
+    string scalar path_tm,         // Directorio donde buscar las tablas de mortalidad
+    string scalar path_v           // Directorio donde buscar vectores de tasa
+) {
+    real scalar N, i
+    N = length(x)
+    
+    real colvector cnu, faj, rp_a, rv_a
+    faj  = J(N,1,.)    
+    rv_a = J(110-x[i]+1,1,-1e100)
+    for(i=1;i<=N;i++)
+    {
+        parallel_break()
+        
+        if (!touse[i]) continue
+    
+        rp_a = J(110,1,rp[i])
+        
+        // Calculando proyeccion del CNU
+        cnu = cnu_proy_cnu(x[i],y[i],cotmujer[i],conymujer[i],tipo_tm_cot[i],
+            tipo_tm_cony[i], agnovec[i], 0, rv_a, rp_a, agnotabla[i], agnotablabenef[i],
+            agnoactual[i], fsiniestro[i], 0, path_tm, path_v)
+        
+        // Calculando FAJ
+        faj[i] = cnu_faj(x[i], cnu, rp_a, vedadm[i], vsaldo[i], vpcent[i],
+            vrp0[i], criter, maxiter)
+
+    }
+    
+    return(faj)
+    
+}
+    /*
+// Proyecta el CNU
+cnu  = cnu_proy_cnu(65,67,0,1,"rv","b",2013,0,J(110-65+1,1,-1e100),J(110-65+1,1,.03),2009,2006,2014,0)
+rp_a = J(110-65+1,1,.03)
+fajs = J(100,1,.5):*(.5/100:*(1::100))
+
+for(i=1;i<=length(fajs);i++) {
+    printf("%5.4fc %9.5fc\n",fajs[i],cnu_faj_fun_obj(fajs[i],65,cnu,rp_a))
+}
+
+cnu_faj(65, cnu, rp_a,98,1,.3,.)
+
+cnu2 = cnu_proy_cnu( 65, 67, 0, 1, "rv", "b", 2013, 0,J(110-65+1,1,-1e+100), J(110-65+1,1,.03), 2009, 2006, 2014, 0, 0, "", "" )
+
+cnu_faj(65, cnu2)
+
+
+    /*real scalar faj,
+    real scalar x,
+    real colvector cnu,
+    real colvector rp_a,
+    |real scalar edadm,
+    real scalar saldo,
+    real scalar pcent,
+    real scalar rp0*/
+*/
 end
 *! {smcl}
 *! {c TLC}{dup 78:{c -}}{c TRC}
@@ -991,28 +1331,27 @@ real colvector cnu_2_1_vec(
         accionada por parallel */
         parallel_break()
         
-        if (touse[j,1]) { // Revisa si debe incluirse o no
+        if (touse[j]) continue
 
-            edad = x[j,1]
-            sex=mujer[j,1]
-            
-            if (path_v=="")    vecexists = fileexists(c("sysdir_plus")+"c/cnu_vec"+strofreal(agnovec[j]))
-            else vecexists = fileexists(path_v+"cnu_vec"+strofreal(agnovec[j]))
-            
-            if (edad >= 20 & edad <= 110 & vecexists) {
-                            
-                // Guarda resultado en vector CNU            
-                cnu[j,1] = cnu_2_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
-            }
-            else if (edad < 20) { // No puede calcular CNU por ser menor de 20
-                if (nerr_menor_20++ < 20) err_menor_20 = err_menor_20+strofreal(j)+" "
-            }
-            else if (!vecexists) { // Vector inexistente
-                if (nerr_vector++ < 20) err_vector = err_vector+strofreal(j)+" "
-            }
-            else { // No puede calcular CNU por ser mayor de 110
-                if (nerr_mayor_110++ < 20) err_mayor_110 = err_mayor_110+strofreal(j)+" "
-            }
+        edad = x[j,1]
+        sex=mujer[j,1]
+        
+        if (path_v=="")    vecexists = fileexists(c("sysdir_plus")+"c/cnu_vec"+strofreal(agnovec[j]))
+        else vecexists = fileexists(path_v+"cnu_vec"+strofreal(agnovec[j]))
+        
+        if (edad >= 20 & edad <= 110 & vecexists) {
+                        
+            // Guarda resultado en vector CNU            
+            cnu[j,1] = cnu_2_1(edad, sex, tipo_tm[j], agnovec[j], rv[j], rp[j], norp, agnotabla[j], vagnoactual[j], vfsiniestro[j], 0, path_tm, path_v)
+        }
+        else if (edad < 20) { // No puede calcular CNU por ser menor de 20
+            if (nerr_menor_20++ < 20) err_menor_20 = err_menor_20+strofreal(j)+" "
+        }
+        else if (!vecexists) { // Vector inexistente
+            if (nerr_vector++ < 20) err_vector = err_vector+strofreal(j)+" "
+        }
+        else { // No puede calcular CNU por ser mayor de 110
+            if (nerr_mayor_110++ < 20) err_mayor_110 = err_mayor_110+strofreal(j)+" "
         }
     }
 

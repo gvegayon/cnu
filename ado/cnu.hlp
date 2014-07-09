@@ -18,7 +18,7 @@ CNU para afiliado soltero.
 {cmdab:cnu_afil} {help varname:x}
 , {opt g:enerate}({help newvar})
 [{opt r:eplace}
-{opt t:abla}({help string})
+{opt t:abla}({help strings:string})
 {opt vt:abla}({help varname})
 {opt cotm:ujer}({help varname})
 {opt agnov:ector}({help integer})
@@ -32,12 +32,12 @@ CNU para afiliado soltero.
 {opt rp}({help real})
 {opt vrv}({help varname})
 {opt vrp}({help varname})
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 {p_end}
 {p 8 17 2}
 {cmdab:cnu_afili} {help integer:x} [
-, {opt t:abla}({help string})
+, {opt t:abla}({help strings:string})
 {opt cotm:ujer}({help integer})
 {opt agnov:ector}({help integer})
 {opt agnoa:ctual}({help integer})
@@ -46,8 +46,8 @@ CNU para afiliado soltero.
 {opt rv}({help real})
 {opt rp}({help real})
 {opt pasos}
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 
 {phang}
 CNU para c{c o'}nyuge sin hijos.
@@ -56,9 +56,9 @@ CNU para c{c o'}nyuge sin hijos.
 {cmdab:cnu_cnyg_s_h} {help varname:x} {help varname:y}
 , {opt g:enerate}({help newvar})
 [{opt r:eplace}
-{opt t:abla}({help string})
+{opt t:abla}({help strings:string})
 {opt vt:abla}({help varname})
-{opt tablab:enef}({help string})
+{opt tablab:enef}({help strings:string})
 {opt vtablab:enef}({help varname})
 {opt cotm:ujer}({help varname})
 {opt conym:ujer}({help varname})
@@ -73,13 +73,13 @@ CNU para c{c o'}nyuge sin hijos.
 {opt rp}({help real})
 {opt vrv}({help varname})
 {opt vrp}({help varname})
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 {p_end}
 {p 8 17 2}
 {cmdab:cnu_cnyg_s_hi} {help integer:x} {help integer:y}
-[ ,{opt t:abla}({help string})
-{opt tablab:enef}({help string})
+[ ,{opt t:abla}({help strings:string})
+{opt tablab:enef}({help strings:string})
 {opt cotm:ujer}({help integer})
 {opt conym:ujer}({help integer})
 {opt agnov:ector}({help integer})
@@ -89,8 +89,8 @@ CNU para c{c o'}nyuge sin hijos.
 {opt rv}({help real})
 {opt rp}({help real})
 {opt pasos}
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 
 {phang}
 CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
@@ -99,7 +99,7 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {cmdab:cnu_sobr_cnyg_s_h} {help varname:y}
 , {opt g:enerate}({help newvar})
 [{opt r:eplace}
-{opt tablab:enef}({help string})
+{opt tablab:enef}({help strings:string})
 {opt vtablab:enef}({help varname})
 {opt conym:ujer}({help varname})
 {opt agnov:ector}({help integer})
@@ -113,12 +113,12 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt rp}({help real})
 {opt vrv}({help varname})
 {opt vrp}({help varname})
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 {p_end}
 {p 8 17 2}
 {cmdab:cnu_sobr_cnyg_s_hi} {help integer:y} [
-, {opt tablab:enef}({help string})
+, {opt tablab:enef}({help strings:string})
 {opt conym:ujer}({help integer})
 {opt agnov:ector}({help integer})
 {opt agnoa:ctual}({help integer})
@@ -127,8 +127,8 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt rv}({help real})
 {opt rp}({help real})
 {opt pasos}
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 
 {phang}
 Factor de Ajuste.
@@ -137,9 +137,9 @@ Factor de Ajuste.
 {cmdab:cnu_faj} {help varname:x} {help varname:y}
 , {opt g:enerate}({help newvar})
 [{opt r:eplace}
-{opt t:abla}({help string})
+{opt t:abla}({help strings:string})
 {opt vt:abla}({help varname})
-{opt tablab:enef}({help string})
+{opt tablab:enef}({help strings:string})
 {opt vtablab:enef}({help varname})
 {opt cotm:ujer}({help varname})
 {opt conym:ujer}({help varname})
@@ -150,28 +150,30 @@ Factor de Ajuste.
 {opt f:siniestro}({help integer})
 {opt vf:siniestro}({help varname})
 {opt norp}
-{opt rv}({help real})
 {opt rp}({help real})
-{opt vrv}({help varname})
 {opt vrp}({help varname})
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 {p_end}
 {p 8 17 2}
 {cmdab:cnu_faji} {help integer:x} {help integer:y}
-[ ,{opt t:abla}({help string})
-{opt tablab:enef}({help string})
+[ , {opt edadm:axima}({help integer})
+{opt saldo}({help real})
+{opt pcent}({help real})
+{opt rp0}({help real})
+{opt cri:ter}({help real})
+{opt maxi:ter}({help real})
+{opt t:abla}({help strings:string})
+{opt tablab:enef}({help strings:string})
 {opt cotm:ujer}({help integer})
 {opt conym:ujer}({help integer})
 {opt agnov:ector}({help integer})
 {opt agnoa:ctual}({help integer})
 {opt f:siniestro}({help integer})
-{opt norp}
-{opt rv}({help real})
 {opt rp}({help real})
 {opt pasos}
-{opt dirt:ablas}({help string})
-{opt dirv:ectores}({help string})]
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
 
 {synoptset 25 tabbed}{...}
 {synopthdr}
@@ -221,6 +223,20 @@ beneficiarios no inv{c a'}lidos. Por defecto utiliza la tabla b2006.{p_end}
 beneficiarios no inv{c a'}lidos.{p_end}
 {synopt:{opt conym:ujer}}Variable dicot{c o'}mica. Contiene el sexo del c{c o'}nyuge
 y es igual a 1 si es mujer y a 0 en el caso contrario.{p_end}
+
+{syntab:C{c a'}lculo del factor de ajuste (FAJ)}
+{synopt:{opt edadm:axima}}Entero. Edad hasta la que el FAJ asegurar{c a'}
+la pensi{c o'}n del afiliado. Por defecto se fija en 98.{p_end}
+{synopt:{opt saldo}}Real. Saldo del afiliado al momento del retiro. Por
+defecto en 1, es decir, el FAJ se calcula en funci{c o'}n de %.{p_end}
+{synopt:{opt pcent}}Real. Porcentaje a cubrir de la primera pensi{c o'}n.
+Por defecto se encuentra fijo en .3.{p_end}
+{synopt:{opt rp0}}Real. Pemsi{c o'}n de referencia. Por defecto calcula
+como funci{c o'}n del saldo inicial y del CNU para el periodo 1.{p_end}
+{synopt:{opt cri:ter}}Real. Precisi{c o'}n al momento de buscar el FAJ
+{c o'}ptimo. Por defecto est{c a'} fijado en 1e-6.{p_end}
+{synopt:{opt maxi:ter}}Entero. M{c a'}ximo n{c u'}mero de iteraciones
+al momento de buscar el FAJ {c o'}ptimo. Por defecto est{c a'} fijo en 100.{p_end}
 {synoptline}
 {p2colreset}{...}
 

@@ -1,5 +1,5 @@
 
-cap mata mata drop cnu_proy_pens()
+*cap mata mata drop cnu_proy_pens()
 mata:
 real matrix function cnu_proy_pens(
 	real scalar x,              // Edad del afiliado
@@ -116,10 +116,11 @@ real matrix function cnu_proy_pens(
 	}
 	
 }
-
+/*
 x=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,0)
 
 y=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,1)
 x
 y
+*/
 end
