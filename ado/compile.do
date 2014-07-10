@@ -14,6 +14,7 @@ do cnu_2_1.mata
 do cnu_2_2.mata
 do cnu_faj.mata
 do cnu_proy_pens.mata
+do cnu_proy_cnu.mata
 do utils.mata
 mata mata mlib add lcnu *()
 
@@ -35,6 +36,7 @@ mata dt_moxygen(dir(".","files","*.mata"), "cnu_source.hlp", 1)
 
 cd ..
 mata dt_install_on_the_fly("cnu")
+cd ado
 
 
 /* Instalando */

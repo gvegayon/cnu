@@ -44,7 +44,7 @@ real colvector cnu_2_1_vec(
 		accionada por parallel */
 		parallel_break()
 		
-		if (touse[j]) continue
+		if (!touse[j]) continue
 
 		edad = x[j,1]
 		sex=mujer[j,1]

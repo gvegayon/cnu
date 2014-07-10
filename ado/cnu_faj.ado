@@ -35,7 +35,6 @@ program def cnu_faj, rclass
 			VAGNOActual(varname)
 			Fsiniestro(integer 0)
 			VFsiniestro(varname)
-			NORP
 			RP(real -1e100)
 			VRP(varname)
 			]
@@ -56,18 +55,18 @@ program def cnu_faj, rclass
 	tokenize `varlist'
 	local x `1'
 	
-	if ("`2'" != "") local y `2'
+	if ("`2'" != "") {
+		local y `2'
+		local sinconyuge 0
+	}
 	else {
+		local sinconyuge 1
 		tempvar y
 		qui gen `y' = .
 	}
 	
 	// Marca segun if
 	marksample touse
-	
-	// Verifica si calcula RP
-	if ("`norp'"!="") di as result "La opci{c 'o}n -norp- ya no est{c 'a} disponible. CNU determina esto autom{c 'a}ticamente."
-	local norp = 1
 	
 	// Selecciona tabla afiliado
 	tempvar vagnotabla vtipotabla
@@ -118,7 +117,8 @@ program def cnu_faj, rclass
 	// Pension de referencia
 	if ("`vrp0'"=="") {
 		tempvar vrp0
-		gen double `vrp0' = `rp0'
+		if (`rp0'==0.0) qui gen double `vrp0' = .
+		qui else gen double `vrp0' = `rp0'
 	}
 	
 	// Porcentaje
@@ -174,8 +174,8 @@ program def cnu_faj, rclass
 	if length("`replace'") != 0 cap drop `generate'
 	qui gen `generate' = .
 	
-	if (`rp' == -1e100) lab var `generate' "CNU RP para conyuge sin hijos (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef'), vector `agnovector' en año `agnoactual'"
-	else lab var `generate' "CNU RP para conyuge sin hijos (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef'), tasa `=`rp'*100'% en año `agnoactual'"
+	if (`sinconyuge') lab var `generate' "FAJ para afiliado soltero"
+	else lab var `generate' "FAJ para afiliado con conyuge"	
 	
 	#delimit ;
 	mata: 
@@ -198,7 +198,6 @@ program def cnu_faj, rclass
 				st_data(.,"`vagnoactual'"),
 				st_data(.,"`vfsiniestro'"),
 				st_data(.,"`touse'"),
-				0,
 				`criter',
 				`maxiter',
 				"`dirtablas'",
@@ -221,6 +220,8 @@ program def cnu_faj, rclass
 	
 	if (c(dp) == "period") qui format `generate' %9.6fc
 	else qui format `generate' %9,6fc
+	
+	return local cmd = `"cnu_faji `0'"'
 	
 end
 

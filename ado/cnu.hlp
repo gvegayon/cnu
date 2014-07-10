@@ -21,15 +21,15 @@ CNU para afiliado soltero.
 {opt t:abla}({help strings:string})
 {opt vt:abla}({help varname})
 {opt cotm:ujer}({help varname})
-{opt agnov:ector}({help integer})
+{opt agnov:ector}({it:#entero})
 {opt vagnov:ector}({help varname})
-{opt agnoa:ctual}({help integer})
+{opt agnoa:ctual}({it:#entero})
 {opt vagnoa:ctual}({help varname})
-{opt f:siniestro}({help integer})
+{opt f:siniestro}({it:#entero})
 {opt vf:siniestro}({help varname})
 {opt norp}
-{opt rv}({help real})
-{opt rp}({help real})
+{opt rv}({it:#real})
+{opt rp}({it:#real})
 {opt vrv}({help varname})
 {opt vrp}({help varname})
 {opt dirt:ablas}({help strings:string})
@@ -38,16 +38,17 @@ CNU para afiliado soltero.
 {p 8 17 2}
 {cmdab:cnu_afili} {help integer:x} [
 , {opt t:abla}({help strings:string})
-{opt cotm:ujer}({help integer})
-{opt agnov:ector}({help integer})
-{opt agnoa:ctual}({help integer})
-{opt f:siniestro}({help integer})
+{opt cotm:ujer}({it:#entero})
+{opt agnov:ector}({it:#entero})
+{opt agnoa:ctual}({it:#entero})
+{opt f:siniestro}({it:#entero})
 {opt norp}
-{opt rv}({help real})
-{opt rp}({help real})
+{opt rv}({it:#real})
+{opt rp}({it:#real})
 {opt pasos}
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
+
 
 {phang}
 CNU para c{c o'}nyuge sin hijos.
@@ -62,15 +63,15 @@ CNU para c{c o'}nyuge sin hijos.
 {opt vtablab:enef}({help varname})
 {opt cotm:ujer}({help varname})
 {opt conym:ujer}({help varname})
-{opt agnov:ector}({help integer})
+{opt agnov:ector}({it:#entero})
 {opt vagnov:ector}({help varname})
-{opt agnoa:ctual}({help integer})
+{opt agnoa:ctual}({it:#entero})
 {opt vagnoa:ctual}({help varname})
-{opt f:siniestro}({help integer})
+{opt f:siniestro}({it:#entero})
 {opt vf:siniestro}({help varname})
 {opt norp}
-{opt rv}({help real})
-{opt rp}({help real})
+{opt rv}({it:#real})
+{opt rp}({it:#real})
 {opt vrv}({help varname})
 {opt vrp}({help varname})
 {opt dirt:ablas}({help strings:string})
@@ -80,17 +81,18 @@ CNU para c{c o'}nyuge sin hijos.
 {cmdab:cnu_cnyg_s_hi} {help integer:x} {help integer:y}
 [ ,{opt t:abla}({help strings:string})
 {opt tablab:enef}({help strings:string})
-{opt cotm:ujer}({help integer})
-{opt conym:ujer}({help integer})
-{opt agnov:ector}({help integer})
-{opt agnoa:ctual}({help integer})
-{opt f:siniestro}({help integer})
+{opt cotm:ujer}({it:#entero})
+{opt conym:ujer}({it:#entero})
+{opt agnov:ector}({it:#entero})
+{opt agnoa:ctual}({it:#entero})
+{opt f:siniestro}({it:#entero})
 {opt norp}
-{opt rv}({help real})
-{opt rp}({help real})
+{opt rv}({it:#real})
+{opt rp}({it:#real})
 {opt pasos}
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
+
 
 {phang}
 CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
@@ -102,15 +104,15 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt tablab:enef}({help strings:string})
 {opt vtablab:enef}({help varname})
 {opt conym:ujer}({help varname})
-{opt agnov:ector}({help integer})
+{opt agnov:ector}({it:#entero})
 {opt vagnov:ector}({help varname})
-{opt agnoa:ctual}({help integer})
+{opt agnoa:ctual}({it:#entero})
 {opt vagnoa:ctual}({help varname})
-{opt f:siniestro}({help integer})
+{opt f:siniestro}({it:#entero})
 {opt vf:siniestro}({help varname})
 {opt norp}
-{opt rv}({help real})
-{opt rp}({help real})
+{opt rv}({it:#real})
+{opt rp}({it:#real})
 {opt vrv}({help varname})
 {opt vrp}({help varname})
 {opt dirt:ablas}({help strings:string})
@@ -119,59 +121,94 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {p 8 17 2}
 {cmdab:cnu_sobr_cnyg_s_hi} {help integer:y} [
 , {opt tablab:enef}({help strings:string})
-{opt conym:ujer}({help integer})
-{opt agnov:ector}({help integer})
-{opt agnoa:ctual}({help integer})
-{opt f:siniestro}({help integer})
+{opt conym:ujer}({it:#entero})
+{opt agnov:ector}({it:#entero})
+{opt agnoa:ctual}({it:#entero})
+{opt f:siniestro}({it:#entero})
 {opt norp}
-{opt rv}({help real})
-{opt rp}({help real})
+{opt rv}({it:#real})
+{opt rp}({it:#real})
 {opt pasos}
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 
+
 {phang}
-Factor de Ajuste.
+Factor de Ajuste para Retiros Programados.
 
 {p 8 17 2}
-{cmdab:cnu_faj} {help varname:x} {help varname:y}
+{cmdab:cnu_faj} {help varname:x} [{help varname:y}]
 , {opt g:enerate}({help newvar})
 [{opt r:eplace}
+{opt edadm:axima}({it:#entero})
+{opt vedadm:axima}({help varname})
+{opt saldo}({it:#real})
+{opt vsaldo}({help varname})
+{opt pcent}({it:#real})
+{opt vpcent}({help varname})
+{opt rp0}({it:#real})
+{opt vrp0}({help varname})
+{opt cri:ter}({it:#real})
+{opt maxi:ter}({it:#real})
 {opt t:abla}({help strings:string})
 {opt vt:abla}({help varname})
 {opt tablab:enef}({help strings:string})
 {opt vtablab:enef}({help varname})
 {opt cotm:ujer}({help varname})
 {opt conym:ujer}({help varname})
-{opt agnov:ector}({help integer})
+{opt agnov:ector}({it:#entero})
 {opt vagnov:ector}({help varname})
-{opt agnoa:ctual}({help integer})
+{opt agnoa:ctual}({it:#entero})
 {opt vagnoa:ctual}({help varname})
-{opt f:siniestro}({help integer})
+{opt f:siniestro}({it:#entero})
 {opt vf:siniestro}({help varname})
-{opt norp}
-{opt rp}({help real})
+{opt rp}({it:#real})
 {opt vrp}({help varname})
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 {p_end}
 {p 8 17 2}
-{cmdab:cnu_faji} {help integer:x} {help integer:y}
-[ , {opt edadm:axima}({help integer})
-{opt saldo}({help real})
-{opt pcent}({help real})
-{opt rp0}({help real})
-{opt cri:ter}({help real})
-{opt maxi:ter}({help real})
+{cmdab:cnu_faji} {help integer:x} [ {help integer:y}
+, {opt edadm:axima}({it:#entero})
+{opt saldo}({it:#real})
+{opt pcent}({it:#real})
+{opt rp0}({it:#real})
+{opt cri:ter}({it:#real})
+{opt maxi:ter}({it:#real})
 {opt t:abla}({help strings:string})
 {opt tablab:enef}({help strings:string})
-{opt cotm:ujer}({help integer})
-{opt conym:ujer}({help integer})
-{opt agnov:ector}({help integer})
-{opt agnoa:ctual}({help integer})
-{opt f:siniestro}({help integer})
-{opt rp}({help real})
+{opt cotm:ujer}({it:#entero})
+{opt conym:ujer}({it:#entero})
+{opt agnov:ector}({it:#entero})
+{opt agnoa:ctual}({it:#entero})
+{opt f:siniestro}({it:#entero})
+{opt rp}({it:#real})
 {opt pasos}
+{opt dirt:ablas}({help strings:string})
+{opt dirv:ectores}({help strings:string})]
+
+
+{phang}
+Proyecci{c o'}n de Retiro Programado (FAJ opcional).
+
+{p 8 17 2}
+{cmdab:cnu_proy_pensi} {help integer:x} [ {help integer:y} ]
+, {opt g:enerate}({help newvarlist}) [
+{opt cotm:ujer}({it:#entero})
+{opt conym:ujer}({it:#entero})
+{opt t:abla}({help strings:string})
+{opt tablab:enef}({help strings:string})
+{opt s:aldo}({it:#real})
+{opt agnov:ector}({it:#entero})
+{opt rp}({it:#real})
+{opt agnoa:ctual}({it:#entero})
+{opt f:siniestro}({it:#entero})
+faj
+{opt edadm:axima}({it:#entero})
+{opt pcent}({it:#real})
+{opt rp0}({it:#real})
+{opt cri:ter}({it:#real})
+{opt maxi:ter}({it:#real})
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 
@@ -215,6 +252,10 @@ renta vitalicia.{p_end}
 retiro programado.{p_end}
 {synopt:{opt pasos}}Activa la impresi{c o'}n en pantalla de los pasos de calculo
 (periodo a periodo) del CNU.{p_end}
+{synopt:{opt dirt:ablas}}En el caso de que el usuario cuente con tablas personalizadas,
+esta opci{c o'}n le permite indicar al comando donde debe buscar dichas tablas.{p_end}
+{synopt:{opt dirv:ectores}}Al igual que las tablas, el usuario tambi{c e'}n puede
+utilizar tablas distintas a las cargadas con el m{c o'}dulo.{p_end}
 
 {syntab:C{c a'}lculo del CNU para beneficiario}
 {synopt:{opt tablab:enef}}Nombre de la tabla de mortalidad a usar para los
@@ -227,16 +268,29 @@ y es igual a 1 si es mujer y a 0 en el caso contrario.{p_end}
 {syntab:C{c a'}lculo del factor de ajuste (FAJ)}
 {synopt:{opt edadm:axima}}Entero. Edad hasta la que el FAJ asegurar{c a'}
 la pensi{c o'}n del afiliado. Por defecto se fija en 98.{p_end}
+{synopt:{opt vedadm:axima}}Nombre de la variable que indica hasta que edad el FAJ asegurar{c a'}
+la pensi{c o'}n del afiliado.{p_end}
 {synopt:{opt saldo}}Real. Saldo del afiliado al momento del retiro. Por
+defecto en 1, es decir, el FAJ se calcula en funci{c o'}n de %.{p_end}
+{synopt:{opt vsaldo}}Nombre de la variable que contiene el saldo del afiliado al momento del retiro. Por
 defecto en 1, es decir, el FAJ se calcula en funci{c o'}n de %.{p_end}
 {synopt:{opt pcent}}Real. Porcentaje a cubrir de la primera pensi{c o'}n.
 Por defecto se encuentra fijo en .3.{p_end}
+{synopt:{opt vpcent}}Nombre de la variable que indica el porcentaje a cubrir de
+la primera pensi{c o'}n.{p_end}
 {synopt:{opt rp0}}Real. Pemsi{c o'}n de referencia. Por defecto calcula
 como funci{c o'}n del saldo inicial y del CNU para el periodo 1.{p_end}
 {synopt:{opt cri:ter}}Real. Precisi{c o'}n al momento de buscar el FAJ
 {c o'}ptimo. Por defecto est{c a'} fijado en 1e-6.{p_end}
 {synopt:{opt maxi:ter}}Entero. M{c a'}ximo n{c u'}mero de iteraciones
 al momento de buscar el FAJ {c o'}ptimo. Por defecto est{c a'} fijo en 100.{p_end}
+
+{syntab:Proyecci{c o'}n de pensiones}
+{synopt:{opt faj}}Si activado, la pensi{c o'}n calculada incluir{c a'} FAJ.
+Por defecto desactivado.{p_end}
+{synopt:{opt g:enerate}}Nombre de las variables que se generar{c a'}n
+(ver detalles).{p_end}
+
 {synoptline}
 {p2colreset}{...}
 
@@ -261,6 +315,20 @@ en el c{c a'}lculo de la pensi{c o'}n.
 {cmd:cnu_sobr_cnyg_s_h} Calcula el CNU de un c{c o'}nyuge sin hijos 
 para una pensi{c o'}n de sobrevivencia de forma vectorial (varias observaciones). 
 {cmd:cnu_sobr_cnyg_s_hi} lo hace de forma inmediata para s{c o'}lo una observaci{c o'}n.
+{p_end}
+
+{pstd}
+{cmd:cnu_faj} Calcula el Factor de Ajuste para Retiros Programados ya sea con o sin
+c{c o'}nyuge de forma vectorial (varias observaciones). {cmd:cnu_faji} lo hace de
+forma inmediata. Las opciones {opt criter} y {opt maxiter} son utilizadas para ajustar
+el proceso de optimizaci{c o'}n que ejecuta el comando para encontrar el FAJ
+{c o'}ptimo; el cual es resuelto utilizando un {c a'}rbol de b{c u'}squeda binaria.
+{p_end}
+
+{pstd}
+En el caso del comando {cmd:cnu_proy_pensi}, luego de realizar los c{c a'}lculos
+se requiere de un listado con el nombre de las variables resultantes que ser{c a'}n
+guardadas en el set de datos actual, esto se hace a trav{c e'}s del comando {help svmat}.
 {p_end}
 
 {pstd}
@@ -469,6 +537,23 @@ en el a{c n~}o 2011{p_end}
 {txt}
 {phang2}CNU para RP con conyuge sin hijos (tabla rv2009) y vector 2011 en el a{c ~n}o 2011{p_end}
 {phang2}2.231859{p_end}
+{txt}
+
+
+{pstd}FAJ para afiliado soltero de 65 con RP de 3%.{p_end}
+{phang2}{cmd:. cnu_faji 65, rp(.03)}{p_end}
+{phang2}{it:   ({stata cnu_faji 65, rp(.03):click para ejecutar})}{p_end}
+{txt}
+{phang2}FAJ para afiliado soltero (tabla 2009rv) tasa .03 en 2014.{p_end}
+{phang2}0.066178{p_end}
+{txt}
+
+{pstd}FAJ para afiliado de 65 con conyuge de 62 con vector del 2013.{p_end}
+{phang2}{cmd:. cnu_faji 65 62, agnov(2013) rp(.03)}{p_end}
+{phang2}{it:   ({stata cnu_faji 65 62, agnov(2013) rp(.03):click para ejecutar})}{p_end}
+{txt}
+{phang2}FAJ para afiliado con conyuge (tabla rv2009 b2006) tasa .03 en 2014.{p_end}
+{phang2}0.013094{p_end}
 {txt}
 
 {title:Author}

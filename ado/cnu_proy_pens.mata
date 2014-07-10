@@ -1,5 +1,3 @@
-
-*cap mata mata drop cnu_proy_pens()
 mata:
 real matrix function cnu_proy_pens(
 	real scalar x,              // Edad del afiliado
@@ -21,14 +19,13 @@ real matrix function cnu_proy_pens(
 	real scalar rp0,            // (FAJ) Pension de referencia (puede autocalcularse) 
 	real scalar criter,         // (FAJ) Criterio de convergencia
 	real scalar maxiter,        // (FAJ) Max num de iteraciones
-	real scalar stepprint,
 	string scalar path_tm,      // Directorio donde buscar las tablas de mortalidad
 	string scalar path_v	
 ) {
 
 	real colvector cnu, pens
 	real matrix vec
-	real scalar i, N, tasa
+	real scalar i, N
 	
 	N = 110 - x + 1
 	
@@ -116,11 +113,5 @@ real matrix function cnu_proy_pens(
 	}
 	
 }
-/*
-x=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,0)
 
-y=cnu_proy_pens(65,.,0,.,"rv","mi",1,2013,.03,2009,2006,2014,0,1)
-x
-y
-*/
 end

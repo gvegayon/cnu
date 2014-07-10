@@ -82,8 +82,8 @@ program def cnu_faji, rclass
 					J(110-`x'+1,1,`rp'), `agnotabla', `agnotablabenef',
 					`agnoactual', `fsiniestro', `pasos', "`dirtablas'",
 					"`dirvectores'"
-				),
-				J(110-`x'+1,1,`rp'),
+				), /* Eligiendo vector correspondiente (si corresponde) */
+				(`rp' != . ? J(110-`x'+1,1,`rp') : cnu_get_vec_tasas(`agnovector', "`dirvectores'")),
 				`edadmaxima',
 				`saldo',
 				`pcent',
@@ -93,9 +93,11 @@ program def cnu_faji, rclass
 			)
 		)) ;
 	#delimit cr
-	
-	if (`y' == .) local etiqueta = "FAJ para afiliado soltero tasa `rp'"
-	else          local etiqueta = "FAJ para afiliado con conyuge, tasa `rp'"
+
+	if      (`y' == . & `rp' != .) local etiqueta = "FAJ para afiliado soltero (tabla `agnotabla'`tipotabla') tasa `rp' en `agnoactual'."
+	else if (`y' == . & `rp' == .) local etiqueta = "FAJ para afiliado soltero (tabla `agnotabla'`tipotabla') vector `agnovec' en `agnoactual'."
+	else if (`y' != . & `rp' != .) local etiqueta = "FAJ para afiliado con conyuge (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef') tasa `rp' en `agnoactual'."
+	else if (`y' != . & `rp' == .) local etiqueta = "FAJ para afiliado con conyuge (tabla `tipotabla'`agnotabla' `tipotablabenef'`agnotablabenef') vector `agnovec' en `agnoactual'."
 	
 	if (c(dp) == "period") local fmt %9.6fc
 	else local fmt %9,6fc
@@ -108,76 +110,5 @@ program def cnu_faji, rclass
 	return scalar faj = `generate'
 	
 end
-/*
-// Ejercicio proyectando pension
-clear
 
-local maxm 98
-local tasa .03
-local mini .3
-
-set obs `=`maxm'-65 + 1'
-gen edad = 65 + _n - 1
-gen agnoa = 2014 - 1 + _n
-cnu_afil edad, vagnoa(agnoa) gen(cnu) rp(`tasa')
-
-// FAJ
-cnu_faji 65 
-gen faj = r(faj)
-
-// Pension agno a ango
-gen saldo     = 1 in 1
-gen pension   = saldo/cnu*(1-faj) in 1
-gen saldo_faj = saldo/cnu*faj in 1
-replace saldo = (saldo - pension - saldo_f)*(1+`tasa') in 1
-
-local mini    = `mini'*saldo[1]/cnu[1]
-di `mini'
-local activo = 0
-
-// Pension con faj
-forval i=2/`=c(N)' {
-
-	quietly {
-	
-		// Monto de pension
-		if (!`activo') {
-			replace pension   = saldo[_n-1]/cnu*(1-faj) in `i'
-			
-			if (pension[`i'] < `mini') {
-				replace pension = `mini' if _n >= `i'
-				replace saldo_f = 0 if _n >= `i'
-				local activo = 1
-			}
-		}
-
-		// Ajuste de saldos
-		if (!`activo') {
-			replace saldo_faj = (saldo_faj[_n-1] + saldo[_n-1]/cnu*faj)*(1+`tasa') in `i'
-			replace saldo     = (saldo[_n-1] - pension - saldo[_n-1]/cnu*faj)*(1+`tasa') in `i'
-		}
-		else {
-			replace saldo = (saldo[_n-1] - pension + saldo_f[_n-1])*(1+`tasa') in `i'
-		}
-
-	}
-	di "pens:`=pension[`i']' mini:`mini'"
-}
-/* 
-lab var pension "% Pension ref (FAJ)"
-
-cnu_proy_pens 65
-mat def pension_pcent_sinfaj = r(pens)
-svmat pension_pcent_sinfaj
-
-lab var pension_pcent_sinfaj "% Pension ref (sin FAJ)"
-
-local pens = pension_pcent_sinfaj[1]
-replace pension = pension/`pens'
-replace pension_pcent_sinfaj = pension_pcent_sinfaj/`pens'
-
-replace pension = 0 if pension == .
-replace edad = edad[_n-1] + 1 if edad == .
-tsset edad
-tsline pension*, ylab(0(.10)1)
 
