@@ -8,6 +8,7 @@ set matastrict on
 *cd f:/cnu/ado
 
 /* Compilando rutinas y agregandolas a mlib */
+vers 10.0
 mata mata mlib create lcnu, replace
 do cnu_1_1.mata
 do cnu_2_1.mata
@@ -24,15 +25,8 @@ mata st_global("ados",invtokens(dir(".","files","*.ado")'))
 mata st_global("tablas",invtokens(dir(".","files","cnu_tabmor*")'))
 mata st_global("vectores",invtokens(dir(".","files","cnu_vec*")'))
 
-foreach g in ayuda ados tablas vectores {
-	foreach f of global `g' {
-		checksum `f', save replace
-	}
-}
-checksum lcnu.mlib, save replace
-
 /* Creando documentacion */
-mata dt_moxygen(dir(".","files","*.mata"), "cnu_source.hlp", 1)
+mata dt_moxygen(dir(".","files","*.mata"), "cnu_source.sthlp", 1)
 
 cd ..
 mata dt_install_on_the_fly("cnu")

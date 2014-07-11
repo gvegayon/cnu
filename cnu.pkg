@@ -1,6 +1,6 @@
 *--- BEGIN --- myprog.pkg -----------------------------------
 v 3
-d Distribution-Date: 20140710
+d Distribution-Date: 20140711
 d cnu. Calculador del Capital Necesario Unitario (CNU) utilizado en el cálculo de pensiones
 d George G. Vega
 d M{c o'}dulo de stata para el c{c a'}lculo del CNU escrito en mata.
@@ -21,18 +21,18 @@ f ado/cnu_faj.ado
 
 F ado/lcnu.mlib
 
-f ado/cnu_afil.hlp
-f ado/cnu_afili.hlp
-f ado/cnu_cnyg_s_h.hlp
-f ado/cnu_cnyg_s_hi.hlp
-f ado/cnu_sobr_cnyg_s_h.hlp
-f ado/cnu_sobr_cnyg_s_hi.hlp
-f ado/cnu_proy_pensi.hlp
-f ado/cnu_faji.hlp
-f ado/cnu_faj.hlp
+f ado/cnu_afil.sthlp
+f ado/cnu_afili.sthlp
+f ado/cnu_cnyg_s_h.sthlp
+f ado/cnu_cnyg_s_hi.sthlp
+f ado/cnu_sobr_cnyg_s_h.sthlp
+f ado/cnu_sobr_cnyg_s_hi.sthlp
+f ado/cnu_proy_pensi.sthlp
+f ado/cnu_faji.sthlp
+f ado/cnu_faj.sthlp
 
-f ado/cnu.hlp
-f ado/cnu_source.hlp
+f ado/cnu.sthlp
+f ado/cnu_source.sthlp
 
 * Tablas de mortalidad y vectores
 F ado/cnu_tabmor_b1985h 

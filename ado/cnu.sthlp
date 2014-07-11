@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.14.5 22may2014}{...}
+{* *! version 0.14.7.11 11jul2014}{...}
 {cmd:help cnu}
 {hline}
 
@@ -35,6 +35,7 @@ CNU para afiliado soltero.
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 {p_end}
+
 {p 8 17 2}
 {cmdab:cnu_afili} {help integer:x} [
 , {opt t:abla}({help strings:string})
@@ -77,6 +78,7 @@ CNU para c{c o'}nyuge sin hijos.
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 {p_end}
+
 {p 8 17 2}
 {cmdab:cnu_cnyg_s_hi} {help integer:x} {help integer:y}
 [ ,{opt t:abla}({help strings:string})
@@ -118,6 +120,7 @@ CNU pensi{c o'}n de sobrevivencia para c{c o'}nyuge sin hijos.
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 {p_end}
+
 {p 8 17 2}
 {cmdab:cnu_sobr_cnyg_s_hi} {help integer:y} [
 , {opt tablab:enef}({help strings:string})
@@ -167,6 +170,7 @@ Factor de Ajuste para Retiros Programados.
 {opt dirt:ablas}({help strings:string})
 {opt dirv:ectores}({help strings:string})]
 {p_end}
+
 {p 8 17 2}
 {cmdab:cnu_faji} {help integer:x} [ {help integer:y}
 , {opt edadm:axima}({it:#entero})
@@ -193,7 +197,8 @@ Proyecci{c o'}n de Retiro Programado (FAJ opcional).
 
 {p 8 17 2}
 {cmdab:cnu_proy_pensi} {help integer:x} [ {help integer:y} ]
-, {opt g:enerate}({help newvarlist}) [
+, [
+{opt g:enerate}({help newvarlist})
 {opt cotm:ujer}({it:#entero})
 {opt conym:ujer}({it:#entero})
 {opt t:abla}({help strings:string})
