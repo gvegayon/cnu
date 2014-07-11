@@ -1,4 +1,4 @@
-*! vers 1.14.7 1jul2014
+*! vers 1.14.7.11 11jul2014
 *! auth: George G. Vega
 *! Genera una trayectoria de pension 
 
@@ -58,12 +58,12 @@ program def cnu_proy_pensi, rclass
 		local nnew: word count `generate'
 		if (`nnew'!=3 & !`faj') {
 			di as error "Variables especificadas en -generate- (`nnew') incorrectas" as text ""
-			di as text "(Se requieren 3)"
+			di as text "(Se requieren 3: edad, saldo y pension)"
 			error 197
 		}
-		else if (`nnew'!=5 & !`faj') {
+		else if (`nnew'!=5 & `faj') {
 			di as error "Variables especificadas en -generate- (`nnew') incorrectas" as text ""
-			di as text "(Se requieren 5)"
+			di as text "(Se requieren 5: edad, saldo, faj, saldo_faj y pension)"
 			error 197
 		}
 		else {

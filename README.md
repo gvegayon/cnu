@@ -10,6 +10,17 @@ hijos.
 
 ## Instalacion
 
+### Instalacion desde ggvega.com
+
+La copia en ggvega.com se encuentra actualizada dos veces al dia. Para acceder
+a esta copia basta con entrar el comando `net install` desde Stata como sigue:
+
+```
+. net install cnu, from(http://software.ggvega.com/stata) replace
+```
+
+### Instalacion desde repositorio
+
 Para instalar debe seguir los siguientes pasos:
 1. Descargar los archivos (ya sea utilizando Git o descargandolo desde
 [aqui](https://github.com/gvegayon/cnu/archive/master.zip)
@@ -25,7 +36,11 @@ Para instalar debe seguir los siguientes pasos:
 ## Autor
 
 George G. Vega Yon
+
 Superintendencia de Pensiones
+
 gvega en spensiones cl
+
+gvegayon en caltech edu
 
 
