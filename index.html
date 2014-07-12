@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cnu by gvegayon</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Cnu</h1>
+        <p>CNU : Modulo de Stata para calcular Capitales Necesarios del Sistema de Pensiones Chileno</p>
+
+        <p class="view"><a href="https://github.com/gvegayon/cnu">View the Project on GitHub <small>gvegayon/cnu</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/gvegayon/cnu/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/gvegayon/cnu/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/gvegayon/cnu">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="cnu--modulo-de-stata-para-el-calculo-de-cnu" class="anchor" href="#cnu--modulo-de-stata-para-el-calculo-de-cnu"><span class="octicon octicon-link"></span></a>cnu : Modulo de Stata para el calculo de CNU</h1>
+
+<p>El modulo <code>cnu</code>, escrito fundamentalmente en MATA, permite el calculo de Capitales
+Necesarios Unitarios (CNU) utilizado para el calculo de pensiones en el sistema
+chileno.</p>
+
+<p>Actualmente el modulo implementa las formulas de CNU para pension de vejez para
+afiliado y conyuge sin hijos, y para pension de sobrevivencia para conyuge sin
+hijos.</p>
+
+<h2>
+<a name="instalacion" class="anchor" href="#instalacion"><span class="octicon octicon-link"></span></a>Instalacion</h2>
+
+<h3>
+<a name="instalacion-desde-ggvegacom" class="anchor" href="#instalacion-desde-ggvegacom"><span class="octicon octicon-link"></span></a>Instalacion desde ggvega.com</h3>
+
+<p>La copia en ggvega.com se encuentra actualizada dos veces al dia. Para acceder
+a esta copia basta con entrar el comando <code>net install</code> desde Stata como sigue:</p>
+
+<pre><code>. net install cnu, from(http://software.ggvega.com/stata) replace
+</code></pre>
+
+<h3>
+<a name="instalacion-desde-repositorio" class="anchor" href="#instalacion-desde-repositorio"><span class="octicon octicon-link"></span></a>Instalacion desde repositorio</h3>
+
+<p>Para instalar debe seguir los siguientes pasos:
+1. Descargar los archivos (ya sea utilizando Git o descargandolo desde
+<a href="https://github.com/gvegayon/cnu/archive/master.zip">aqui</a></p>
+
+<ol>
+<li><p>Extraer los archivos en ZIP en, por ejemplo, C:/</p></li>
+<li><p>Copiar todos los archivos ADO HLP y STHLP en su carpeta PERSONAL/c de Stata</p></li>
+<li><p>Copiar el archivo <code>lcnu.mlib</code> en su carpeta PERSONAL/l de Stata</p></li>
+<li><p>Copiar los archivos <code>cnu_tabmor...</code> y <code>cnu_vec...</code> en su carpeta PERSONAL/c de Stata</p></li>
+</ol><h2>
+<a name="autor" class="anchor" href="#autor"><span class="octicon octicon-link"></span></a>Autor</h2>
+
+<p>George G. Vega Yon</p>
+
+<p>Superintendencia de Pensiones</p>
+
+<p>gvega en spensiones cl</p>
+
+<p>gvegayon en caltech edu</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/gvegayon">gvegayon</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-52757833-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
