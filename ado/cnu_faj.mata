@@ -52,6 +52,11 @@ real scalar function cnu_faj(
 	real scalar maxiter
 	) {
 	
+	if (st_local("debug")!="") {
+		cnu[1::10],rp_a[1::10]
+		x,edadm, saldo, pcent, rp0, criter, maxiter
+	}
+	
 	// Importantes en blanco
 	if (criter  == J(1,1,.)) criter = 1e-7
 	if (maxiter == J(1,1,.)) maxiter = 100

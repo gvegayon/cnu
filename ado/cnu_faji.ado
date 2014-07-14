@@ -26,7 +26,7 @@ program def cnu_faji, rclass
 			AGNOActual(integer 0)
 			Fsiniestro(integer 0)
 			RP(real 0.03)
-			PASOS
+			PASOS debug
 			]
 	;
 	#delimit cr
@@ -71,6 +71,7 @@ program def cnu_faji, rclass
 	// Agno actual
 	if `agnoactual' == 0 local agnoactual = regexr(c(current_date), "[0-9]* [a-zA-Z]* ","")	
 
+	*if ("`debug'"!="") set trace on
 	#delimit ;
 	mata: 
 		st_local("generate", strofreal(
@@ -93,6 +94,7 @@ program def cnu_faji, rclass
 			)
 		)) ;
 	#delimit cr
+	*if ("`debug'"!="") set trace off
 
 	if      (`y' == . & `rp' != .) local etiqueta = "FAJ para afiliado soltero (tabla `agnotabla'`tipotabla') tasa `rp' en `agnoactual'."
 	else if (`y' == . & `rp' == .) local etiqueta = "FAJ para afiliado soltero (tabla `agnotabla'`tipotabla') vector `agnovec' en `agnoactual'."

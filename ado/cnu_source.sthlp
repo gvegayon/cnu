@@ -530,6 +530,10 @@ real matrix function cnu_proy_pens(
         real scalar faj, fajactivo, pensfaj, saldofaj
         
         // Calculando FAJ
+        if (st_local("debug")!="") {
+            cnu[1::10],vec[1::10,2]
+            x,edadm, saldoi, pcent, rp0, criter, maxiter
+        }
         faj = cnu_faj(x, cnu, vec[,2], edadm, saldoi, pcent, rp0,
             criter, maxiter)
         
@@ -1080,6 +1084,11 @@ real scalar function cnu_faj(
     real scalar criter,
     real scalar maxiter
     ) {
+    
+    if (st_local("debug")!="") {
+        cnu[1::10],rp_a[1::10]
+        x,edadm, saldo, pcent, rp0, criter, maxiter
+    }
     
     // Importantes en blanco
     if (criter  == J(1,1,.)) criter = 1e-7

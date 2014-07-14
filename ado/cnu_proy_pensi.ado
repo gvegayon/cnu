@@ -31,6 +31,7 @@ program def cnu_proy_pensi, rclass
 			// -- Variables adicionales --
 			DIRTablas(string) 
 			DIRVectores(string)
+			debug
 			]
 	;
 	#delimit cr
@@ -111,6 +112,7 @@ program def cnu_proy_pensi, rclass
 	// Se guarda como una matriz.
 	tempname mimat
 	
+	*if ("`debug'"!="") set trace on
 	#delimit ;
 	mata: 
 		st_matrix("`mimat'", 
@@ -123,6 +125,7 @@ program def cnu_proy_pensi, rclass
 			))
 		) ;
 	#delimit cr
+	*if ("`debug'"!="") set trace off
 
 	if (`faj') local confaj " con FAJ"
 	
