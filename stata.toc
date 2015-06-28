@@ -1,0 +1,4 @@
+v 3
+d CNU by George Vega
+
+p cnu Capital Necesario Unitario
