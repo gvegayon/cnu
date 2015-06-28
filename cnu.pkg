@@ -1,7 +1,7 @@
 *--- BEGIN --- myprog.pkg -----------------------------------
 v 3
 d Distribution-Date: 20140711
-d cnu. Calculador del Capital Necesario Unitario (CNU) utilizado en el cálculo de pensiones
+d cnu. Calculador del Capital Necesario Unitario (CNU) utilizado en el calculo de pensiones
 d George G. Vega
 d M{c o'}dulo de stata para el c{c a'}lculo del CNU escrito en mata.
 Fue contrastado con informatica
