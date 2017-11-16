@@ -10,9 +10,9 @@ hijos.
 
 ## Instalacion
 
-### Instalacion desde ggvega.com
+### Instalacion desde ~~ggvega.com~~ github
 
-La copia en ggvega.com se encuentra actualizada dos veces al dia. Para acceder
+~~La copia en ggvega.com se encuentra actualizada dos veces al dia.~~ Para acceder
 a esta copia basta con entrar el comando `net install` desde Stata como sigue:
 
 ```
@@ -40,8 +40,8 @@ George G. Vega Yon
 
 Superintendencia de Pensiones
 
-gvega en spensiones cl
+g.vegayon en g mail
 
-gvegayon en caltech edu
+
 
 
