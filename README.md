@@ -16,7 +16,8 @@ La copia en ggvega.com se encuentra actualizada dos veces al dia. Para acceder
 a esta copia basta con entrar el comando `net install` desde Stata como sigue:
 
 ```
-. net install cnu, from(http://software.ggvega.com/stata) replace
+. net install cnu, from(https://cdn.rawgit.com/gvegayon/cnu/a31056b6) replace
+. mata mata mlib query
 ```
 
 ### Instalacion desde repositorio
